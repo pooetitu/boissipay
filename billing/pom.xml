@@ -4,16 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>org.esgi</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>boissipay</artifactId>
 	</parent>
 	<modules>
 		<module>billing-implementation</module>
 		<module>billing-specification</module>
 	</modules>
-	<groupId>org.esgi</groupId>
+	<groupId>org.esgi.boissipay</groupId>
 	<artifactId>billing</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>billing</name>

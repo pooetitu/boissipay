@@ -1,10 +1,10 @@
-package org.esgi.contract;
+package org.esgi.boissipay.billing;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ContractApplicationTests {
+class BillingApplicationTests {
 
 	@Test
 	void contextLoads() {

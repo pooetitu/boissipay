@@ -3,17 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.esgi</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>boissipay</artifactId>
+	</parent>
 	<modules>
 		<module>contract-specification</module>
 		<module>contract-implementation</module>
 	</modules>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>org.esgi</groupId>
+	<groupId>org.esgi.boissipay</groupId>
 	<artifactId>contract</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>contract</name>

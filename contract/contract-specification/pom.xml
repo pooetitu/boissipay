@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <parent>
         <artifactId>contract</artifactId>
-        <groupId>org.esgi</groupId>
+        <groupId>org.esgi.boissipay</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -58,8 +58,8 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <apiPackage>org.esgi.contract.api</apiPackage>
-                            <modelPackage>org.esgi.contract.model</modelPackage>
+                            <apiPackage>org.esgi.boissipay.contract.api</apiPackage>
+                            <modelPackage>org.esgi.boissipay.contract.model</modelPackage>
                             <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 

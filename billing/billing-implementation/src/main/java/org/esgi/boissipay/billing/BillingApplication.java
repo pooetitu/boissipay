@@ -1,4 +1,4 @@
-package org.esgi.billing;
+package org.esgi.boissipay.billing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

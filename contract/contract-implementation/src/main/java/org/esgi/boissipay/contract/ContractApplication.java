@@ -1,4 +1,4 @@
-package org.esgi.contract;
+package org.esgi.boissipay.contract;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
