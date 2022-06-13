@@ -1,0 +1,1522 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Travel Billing
+  description: The Travel Invoicing Application System
+servers:
+  - url: https://api.esgi.fr/billing/v1
+paths:
+  /subscriptions:
+    get:
+      operationId: searchSubscriptions
+      tags:
+        - PHASE 1
+        - Subscriptions
+      summary: Search Subscriptions
+      description: >-
+        Multi-criteria search for subscriptions. The result is a list (maybe
+        empty) of subscriptions
+      security:
+        - OAuth2:
+            - read
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/QueryContractRef'
+        - $ref: '#/components/parameters/QueryCustomerRef'
+        - $ref: '#/components/parameters/QueryContractStatus'
+        - $ref: '#/components/parameters/QueryPageLimit'
+        - $ref: '#/components/parameters/QueryPageOffset'
+      responses:
+        '200':
+          description: SUCCESS - Returns a list of Subscriptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionsResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/SubscriptionsResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+    post:
+      operationId: postSubscription
+      tags:
+        - PHASE 1
+        - Subscriptions
+      summary: Add Subscriptions
+      description: Add a new Subscription
+      security:
+        - OAuth2:
+            - write
+        - ApiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+            examples:
+              SubscriptionResponse:
+                $ref: '#/components/examples/SubscriptionRequest'
+      responses:
+        '201':
+          description: SUCCESS - Subscription created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                SubscriptionResponse:
+                  $ref: '#/components/examples/SubscriptionResponse'
+        '400':
+          description: ERROR - Invalid object request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+  /subscriptions/{subscriptionRef}:
+    get:
+      operationId: getSubscription
+      tags:
+        - PHASE 1
+        - Subscriptions
+      summary: Read Subscription
+      description: Get an existing Subscription
+      security:
+        - OAuth2:
+            - write
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/PathSubscriptionRef'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                SubscriptionResponse:
+                  $ref: '#/components/examples/SubscriptionResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+    put:
+      operationId: patchSubscription
+      tags:
+        - PHASE 1
+        - Subscriptions
+      summary: Patch Subscription
+      description: Update an existing Subscription
+      security:
+        - OAuth2:
+            - write
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/PathSubscriptionRef'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+            examples:
+              SubscriptionRequest:
+                $ref: '#/components/examples/SubscriptionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                SubscriptionResponse:
+                  $ref: '#/components/examples/SubscriptionResponse'
+        '400':
+          description: ERROR - Invalid object request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+  /eligibility/{customerRef}:
+    get:
+      operationId: readEligibility
+      tags:
+        - PHASE 1
+        - Eligibility
+      summary: Rerieves Eligibility status
+      description: >-
+        Gives the status of customers with respect to the subscription.
+        Ccontract and payment information are checked.
+      security:
+        - OAuth2:
+            - read
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/PathCustomerRef'
+      responses:
+        '200':
+          description: SUCCESS - Returns list of status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityResponse'
+              examples:
+                EligibilityResponse:
+                  $ref: '#/components/examples/EligibilityResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+  /operations:
+    get:
+      tags:
+        - PHASE 2
+        - Operations
+      description: Returns a list of Operation added to deferred billing
+      security:
+        - OAuth2:
+            - read
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/QuerySubscriptionRef'
+        - $ref: '#/components/parameters/QueryInvoiceRef'
+        - $ref: '#/components/parameters/QueryCustomerRef'
+        - $ref: '#/components/parameters/QueryContactRef'
+        - $ref: '#/components/parameters/QueryPageLimit'
+        - $ref: '#/components/parameters/QueryPageOffset'
+      responses:
+        '200':
+          description: Successfully returned a list of Operations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OperationsResponse'
+              examples:
+                OperationsResponse:
+                  $ref: '#/components/examples/OperationsResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+    post:
+      tags:
+        - PHASE 1
+        - Operations
+      summary: Add Operations
+      description: Add a new Operation to deferred billing
+      security:
+        - OAuth2:
+            - write
+        - ApiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationRequest'
+            examples:
+              OperationRequest:
+                $ref: '#/components/examples/OperationRequest'
+      responses:
+        '201':
+          description: Operation successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+              examples:
+                OperationResponse:
+                  $ref: '#/components/examples/OperationResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+    put:
+      operationId: patchOperation
+      tags:
+        - PHASE 1
+        - Operations
+      summary: Patch Operations
+      description: Update an existing operation (usecase cancelling)
+      security:
+        - OAuth2:
+            - write
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/QueryOrderRef'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationRequest'
+            examples:
+              SubscriptionRequest:
+                $ref: '#/components/examples/OperationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                SubscriptionResponse:
+                  $ref: '#/components/examples/SubscriptionResponse'
+        '400':
+          description: ERROR - Invalid object request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+  /invoices:
+    get:
+      tags:
+        - PHASE 2
+        - Invoices
+      description: Returns a list of Invoices
+      security:
+        - OAuth2:
+            - read
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/QuerySubscriptionRef'
+        - $ref: '#/components/parameters/QueryContractRef'
+        - $ref: '#/components/parameters/QueryCustomerRef'
+        - $ref: '#/components/parameters/QueryContactRef'
+        - $ref: '#/components/parameters/QueryPageLimit'
+        - $ref: '#/components/parameters/QueryPageOffset'
+      responses:
+        '200':
+          description: Successfully returned a list of Invoices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invoice'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+  /invoices/{invoiceRef}:
+    get:
+      tags:
+        - PHASE 2
+        - Invoices
+      description: Returns an invoice
+      security:
+        - OAuth2:
+            - read
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/PathInvoiceRef'
+      responses:
+        '200':
+          description: Successfully returned a list of invoices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '401':
+          description: ERROR - Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '403':
+          description: ERROR - Access token does not have the required scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+        '500':
+          description: ERROR - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                SubscriptionsResponse:
+                  $ref: '#/components/examples/ErrorResponse'
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: X-OKAPI-KEY
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://moncompte.esgi.fr/oauth/authorize
+          tokenUrl: https://moncompte/esgi.fr/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
+  parameters:
+    PathSubscriptionRef:
+      name: subscriptionRef
+      in: path
+      description: External identifier of the subscription
+      required: true
+      example: SUB-YTYE65687
+      schema:
+        type: string
+    PathInvoiceRef:
+      name: invoiceRef
+      in: path
+      description: External identifier of the invoice
+      required: true
+      example: BIL-HGDU12687628
+      schema:
+        type: string
+    PathCustomerRef:
+      name: customerRef
+      in: path
+      description: External reference of the buyer
+      required: true
+      example: CUSTOMER NUMBER
+      schema:
+        type: string
+    QueryOrderRef:
+      name: orderRef
+      in: query
+      description: Order extrenal Reference
+      example: 444e4567-e89b-12d3-a456-556642440000
+      schema:
+        type: string
+    QueryContractStatus:
+      name: contractStatus
+      in: query
+      description: Contract Status
+      example: ACTIVE
+      schema:
+        type: string
+    QuerySubscriptionRef:
+      name: subscriptionId
+      in: query
+      description: External identifier of subscription
+      example: 123e4567-e89b-12d3-a456-556642440000
+      schema:
+        type: string
+    QueryContractRef:
+      name: contractRef
+      in: query
+      description: External identifier of the deferred billing contract for the customer
+      example: CTR-671675563
+      schema:
+        type: string
+    QueryInvoiceRef:
+      name: invoiceRef
+      in: query
+      description: External identifier of the invoice
+      schema:
+        type: string
+    QueryCustomerRef:
+      name: customerRef
+      in: query
+      description: External identifier of the buyer
+      example: CUSTOMER REF
+      schema:
+        type: string
+    QueryContactRef:
+      name: contactRef
+      in: query
+      description: IDExternal identifier of the Customer's contact
+      example: CTR-671675563
+      schema:
+        type: string
+    QueryPageLimit:
+      name: limit
+      in: query
+      description: Limits the number of items on a page
+      example: 10
+      schema:
+        type: integer
+    QueryPageOffset:
+      name: offset
+      in: query
+      description: Specifies the page number of the list to be displayed
+      example: 1
+      schema:
+        type: integer
+  schemas:
+    ErrorType:
+      type: object
+      required:
+        - path
+        - timestamp
+        - errorCode
+        - status
+      properties:
+        path:
+          type: string
+        timestamp:
+          type: integer
+        errorCode:
+          type: string
+        status:
+          type: integer
+        message:
+          type: string
+        detail:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorType'
+    BusinessAddress:
+      description: >
+        A postal address splitted in 6 lines ordered as defined in RNVP and
+        french standard AFNOR NF Z 10-011
+
+        ([more information about the
+        standards](http://www.rnvp-internationale.com/norme-postale/NF-Z-10-011.php)).
+
+        All the lines are mandatory. Lines that are optional may be empty.
+      type: object
+      properties:
+        line1:
+          description: |
+            Particular: CIVILITÉ - TITRE ou QUALITÉ - PRÉNOM - NOM
+            Progessionnal: RAISON SOCIALE ou DÉNOMINATION
+          type: string
+          example: ESGI SA
+        line2:
+          description: |
+            Particular: N°APP ou BAL - ÉTAGE - COULOIR - ESC
+            Professionnal: IDENTITÉ DU DESTINATAIRE et ou SERVICE
+          type: string
+          example: Service comptabilité
+        line3:
+          description: ENTRÉE - BÂTIMENT - IMMEUBLE - RÉS - ZI
+          type: string
+          example: null
+        line4:
+          description: NUMÉRO - LIBELLÉ DE LA VOIE
+          type: string
+        line5:
+          description: LIEU DIT ou SERVICE PARTICULIER DE DISTRIBUTION
+        locality:
+          description: Name of the locality of the address
+          type: string
+        countryCode:
+          description: >-
+            Country code as defined in standard ISO 3166 ([more information
+            about the
+            standard](https://www.iso.org/fr/iso-3166-country-codes.html))
+          type: string
+        countryName:
+          description: >-
+            Country name as defined in standard ISO 3166 ([more information
+            about the
+            standard](https://www.iso.org/fr/iso-3166-country-codes.html))
+          type: string
+    BusinessPerson:
+      type: object
+      required:
+        - lastName
+        - mail
+      properties:
+        gender:
+          description: Gender of the contact
+          type: string
+          enum:
+            - M
+            - MME
+          example: M
+        firstName:
+          description: First name of the contact
+          type: string
+          example: John
+        lastName:
+          description: Last name of the contact
+          type: string
+          example: DOE
+        mail:
+          description: Mail address of the contact
+          type: string
+          format: email
+          example: john.doe@acme.com
+        phone:
+          description: Phone number of the contact
+          type: string
+          format: phone
+          example: +33 (0)1 56 87 65 78
+    EligibilityResponse:
+      description: Returns
+      type: object
+      properties:
+        customerRef:
+          type: string
+        subscriptionRef:
+          type: string
+        contractRef:
+          type: string
+        contractStatus:
+          type: string
+        billingAddress:
+          $ref: '#/components/schemas/BusinessAddress'
+        billingInProgress:
+          type: object
+          properties:
+            amountWithoutTax:
+              type: number
+            amountTax:
+              type: number
+            amountWithTax:
+              type: number
+            amountEcoParticipation:
+              type: number
+      example:
+        $ref: '#/components/examples/EligibilityResponse'
+    Invoice:
+      description: Describe an invoice
+      type: object
+      required:
+        - invoiceId
+        - subscription
+        - operations
+      properties:
+        invoiceId:
+          description: Invoice Id
+          type: string
+        subscription:
+          $ref: '#/components/schemas/SubscriptionResponse'
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationResponse'
+    OperationRequest:
+      description: Describes an Operation added to deferred billing
+      type: object
+      required:
+        - orderRef
+      properties:
+        customerRef:
+          description: External identifier of the Customer
+          type: string
+          example: HA-8768376537
+        operationAt:
+          description: >
+            Transaction date in the sales system as defined in ISO 8601 ([more
+            information about the
+            standar](https://www.iso.org/fr/iso-8601-date-and-time-format.html)). 
+
+            Used format : YYYY-MM-DD
+          type: string
+          format: date
+          example: '2022-04-27'
+        order:
+          description: Describes Purchase or Refund Operation
+          type: object
+          properties:
+            orderRef:
+              description: External Order reference
+              type: string
+              example: 789e4567-e89b-12d3-a456-556642440000
+            currencyCode:
+              description: >-
+                Billing currency code as defined in ISO 4217 ([more information
+                about the
+                standard](https://www.iso.org/fr/iso-4217-currency-codes.html))
+              type: string
+              example: EUR
+            orderType:
+              description: |
+                Necessary for e-Invoicing : 
+                LB = Livraison de Biens,
+                PS = Prestation de Service
+                LBPS = Double
+              type: string
+              enum:
+                - LB
+                - PS
+                - LBPS
+              example: LB
+            orderItems:
+              type: array
+              items:
+                type: object
+                properties:
+                  shipmentAddress:
+                    $ref: '#/components/schemas/BusinessAddress'
+                  shipmentContact:
+                    $ref: '#/components/schemas/BusinessPerson'
+                  deliveredOn:
+                    description: Order delivery date
+                    type: string
+                    format: date
+                    example: '2022-04-28'
+                  productItems:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productRef:
+                          type: string
+                        productLabel:
+                          type: string
+                        quantity:
+                          type: integer
+                        packaging:
+                          type: string
+                        unitPrice:
+                          type: number
+                        vatRate:
+                          type: number
+                        amountWithoutTax:
+                          type: number
+                        amountTax:
+                          type: number
+                        amountWithTax:
+                          type: number
+                        amountEcoParticipation:
+                          description: Necessary for e-Invoicing
+                          type: number
+            totalWithoutTax:
+              type: number
+            totalTax:
+              type: number
+            totalWithTax:
+              type: number
+            amountEcoParticipation:
+              description: Necessary for e-Invoicing
+              type: number
+      example:
+        $ref: '#/components/examples/OperationRequest'
+    OperationResponse:
+      allOf:
+        - type: object
+          properties:
+            operationId:
+              description: Internal identifier of the Operation
+              type: integer
+              example: 123e4567-e89b-12d3-a456-556642440000
+            operationRef:
+              description: External identifier of the Operation
+              type: string
+              example: HA-8768376537
+            billing:
+              type: object
+              properties:
+                subscriptionRef:
+                  type: string
+                createdAt:
+                  type: string
+                  format: date
+                commingSoon:
+                  type: object
+            invoice:
+              type: object
+              properties:
+                invoiceRef:
+                  type: string
+                createdAt:
+                  type: string
+                  format: date
+                commingSoon:
+                  type: object
+        - $ref: '#/components/schemas/OperationRequest'
+      example:
+        $ref: '#/components/examples/OperationResponse'
+    OperationsResponse:
+      description: List of operations that meet the search criteria
+      properties:
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationResponse'
+        metadata:
+          $ref: '#/components/schemas/QueryMetadataResponse'
+      example:
+        OperationssResponse:
+          $ref: '#/components/examples/OperationsResponse'
+    CurrentBill:
+      type: object
+      properties:
+        customerId:
+          description: Customer Id
+          type: string
+        bill:
+          description: Customer current bill
+          type: number
+    WireTransfertResource:
+      description: SEPA Informations
+      type: object
+      properties:
+        rum:
+          description: Référence Unique de Mandat
+          type: string
+          example: RUM08918098739762ABCGDF65524255658
+        bankCoordinates:
+          description: Bank Coordinates
+          type: object
+          properties:
+            bankCode:
+              description: Bank identifier
+              type: string
+              pattern: '[0-9]{5}'
+              example: '12548'
+            branchCode:
+              description: Bank branch identifier
+              type: string
+              pattern: '[0-9]{5}'
+              example: '02998'
+            accountNumber:
+              description: Account number extracted from RIB
+              type: string
+              pattern: '[A-Z9-9]{11}'
+              example: '98765432109'
+            key:
+              description: Control key extracted from RIB
+              type: string
+              pattern: '[0-9]{2}'
+              example: '9172'
+            iban:
+              description: Identification Bank Account Number extracted from RIB
+              type: string
+              example: FR7612548029989876543210917
+            bic:
+              description: Bank Identifier Number
+              type: string
+              example: BIC
+            accountOwner:
+              description: Name of the account owner
+              type: string
+              example: Ma Petite Entreprise
+            bankName:
+              description: >-
+                the clear name of the institution and the counter holding the
+                account
+              type: string
+              example: LA BANQUE DU BUYER
+            ics:
+              description: SEPA creditor identifier
+              type: string
+              pattern: '[A-Z]{2}[A-Z0-9]{11}'
+              example: FR83ZZZ459654
+    BusinessContract:
+      description: Describe business contract
+      type: object
+      properties:
+        contractId:
+          description: Internal identifier of the subscription
+          type: integer
+          example: '786876725453'
+        contractRef:
+          description: External contract reference
+          type: string
+          example: CTR-JHKJQGFSHFHGS
+        createdAt:
+          description: Creation date of contract (use ISO 8601 format YYYY-MM-DD)
+          type: string
+          format: date
+          example: '2022-04-22'
+        activatedAt:
+          description: Activation date of contract (use ISO 8601 format YYYY-MM-DD)
+          type: string
+          format: date
+          example: '2022-04-24'
+        expireAt:
+          description: Expiration date of contract (use ISO 8601 format YYYY-MM-DD)
+          type: string
+          format: date
+          example: '2023-04-01'
+        status:
+          description: Status of contact
+          type: string
+          enum:
+            - CREATED
+            - ACTIVATED
+            - SUSPENDED
+            - EXPIRED
+          example: ACTIVE
+    BusinessSeller:
+      description: Describes seller organisation & contact
+      type: object
+      properties:
+        sellerRef:
+          description: External reference of seller
+          type: string
+          example: esgi SA
+        eFacturation:
+          description: Necessary for e-Invoicing & e-Reporting
+          type: object
+          properties:
+            siren:
+              type: string
+              example: '356000000'
+            tvaIntracommunautaire:
+              type: string
+              example: FR39356000000
+            country:
+              type: string
+              example: FRANCE
+        contactPerson:
+          $ref: '#/components/schemas/BusinessPerson'
+        contactAddress:
+          $ref: '#/components/schemas/BusinessAddress'
+    BusinessProfessionnalParty:
+      description: Describes professionnal organisation
+      type: object
+      properties:
+        professionnal:
+          description: Desribes professionnal party
+          type: object
+          properties:
+            customerId:
+              description: Internal Identifier of organisation
+              type: string
+              example: PRO-8996786873
+            customerRef:
+              description: External identifier of organisation
+              type: string
+              example: EXT-8996786873
+    BusinessParticularParty:
+      description: Describes particular physical person
+      type: object
+      properties:
+        particular:
+          type: object
+          properties:
+            customerId:
+              description: Internal Identifier of person
+              type: string
+              example: PRO-8996786873
+            customerRef:
+              description: External identifier of organisation (i.e. firstName + lastName)
+              type: string
+              example: John DOE
+    BusinessBuyer:
+      description: Describes buyer organisation & contact
+      type: object
+      required:
+        - buyerType
+        - contactPerson
+        - contactAddress
+        - billingAddress
+      properties:
+        buyerRef:
+          description: >-
+            External reference of buyer (By example: social reason of the
+            company)
+          type: string
+          example: Ma Petite Entreprise
+        buyerType:
+          type: string
+          enum:
+            - PARTICULAR
+            - PROFESSIONNAL
+          example: PROFESSIONNAL
+        party:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/BusinessProfessionnalParty'
+            - $ref: '#/components/schemas/BusinessParticularParty'
+        eInvoicing:
+          description: Necessary for e-Invoicing & e-Reporting
+          type: object
+          properties:
+            siren:
+              type: string
+              example: '784671695'
+            tvaIntracommunautaire:
+              type: string
+              example: FR53157896342
+            country:
+              type: string
+              example: FRANCE
+        contactPerson:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/BusinessPerson'
+            - type: object
+              required:
+                - contactId
+              properties:
+                contactId:
+                  description: Internal contact identifier (legal represenative of entity)
+                  type: string
+                  example: CCU-001524
+        contactAddress:
+          $ref: '#/components/schemas/BusinessAddress'
+        billingAddress:
+          $ref: '#/components/schemas/BusinessAddress'
+    BusinessPayment:
+      description: Describes the payment method used
+      type: object
+      required:
+        - paymentMethodType
+      properties:
+        paymentMethodType:
+          description: Payment method type (Only WIRETRANSFER for differed billing phase 1)
+          type: string
+          enum:
+            - WIRETRANSFER
+          example: WIRETRANSFER
+        wireTansfert:
+          $ref: '#/components/schemas/WireTransfertResource'
+    SubscriptionRequest:
+      description: Describes billing subscription
+      type: object
+      required:
+        - subscriptionType
+        - contract
+        - seller
+        - buyer
+        - payment
+      properties:
+        subscriptionType:
+          description: Type of subscription
+          type: string
+          enum:
+            - DEFERRED_BILLING
+          example: DEFERRED_BILLING
+        contract:
+          $ref: '#/components/schemas/BusinessContract'
+        seller:
+          $ref: '#/components/schemas/BusinessSeller'
+        buyer:
+          $ref: '#/components/schemas/BusinessBuyer'
+        payment:
+          $ref: '#/components/schemas/BusinessPayment'
+      example:
+        SubscriptionResponse:
+          $ref: '#/components/examples/SubscriptionResponse'
+    SubscriptionResponse:
+      required:
+        - subscriptionId
+      allOf:
+        - type: object
+          properties:
+            subscriptionId:
+              description: Internal identifier of the subscription
+              type: integer
+              example: 58761542
+            subscriptionRef:
+              description: External identifier of the subscription
+              type: string
+              example: SUB-YTYE65687
+        - $ref: '#/components/schemas/SubscriptionRequest'
+      example:
+        SubscriptionRequest:
+          $ref: '#/components/examples/SubscriptionRequest'
+    SubscriptionsResponse:
+      description: List of subscriptions that meet the search criteria
+      properties:
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionResponse'
+        metadata:
+          $ref: '#/components/schemas/QueryMetadataResponse'
+      example:
+        SubscriptionsResponse:
+          $ref: '#/components/examples/SubscriptionsResponse'
+    QueryMetadataResponse:
+      description: Informations on current query & count of items and pages
+      type: object
+      properties:
+        query:
+          description: URI of current query
+          type: string
+        countItems:
+          description: Number of items in current response
+          type: integer
+        totalItems:
+          description: Total number of items for current query
+          type: integer
+        totalPages:
+          description: Total number of pages for current query
+          type: integer
+  examples:
+    ErrorResponse:
+      value:
+        errors:
+          - path: /currentPath
+            timestamp: 2022-04-28-16T22:14:45.624+0000
+            errorCode: PD-123
+            status: 400|401|403|500
+            message: Error message
+    QueryMetadataResponse:
+      value:
+        query: /subscriptions?customerRef=123&status=ACTIVE
+        countItems: 1
+        totalItems: 1
+        totalPages: 1
+    EligibilityResponse:
+      value:
+        customerRef: HA-8768376537
+        subscriptionRef: SUB-YTYE65687
+        contractRef: CTR-JHKJQGFSHFHGS
+        contractStatus: ACTIVE
+        billingAddress:
+          line1: Ma Petite Entreprise
+          line2: Service comptabilité
+          line4: 3 Allée des Fleurs
+          postalCode: '02100'
+          locality: SAINT QUENTIN
+          countryCode: FR
+          countryName: FRANCE
+        billingInProgress:
+          amountWithoutTax: 10.2
+          amountTax: 2.75
+          amountWithTax: 12.95
+          amountEcoParticipation: 0.17
+    OperationRequest:
+      value:
+        customerRef: HA-8768376537
+        operationAt: '2022-04-27'
+        order:
+          - orderRef: 444e4567-e89b-12d3-a456-556642440000
+            orderType: LB
+            shipmentAddress: null
+            shipmentContact:
+              - productRef: '1116420'
+                productLabel: Carnet de 12 timbres Marianne Vert - Lettre verte
+                quantity: 1
+                packaging: PCE
+                unitPrice: 8.4
+                vatRate: 5.5
+                amountWithoutTax: 8.4
+                amountTax: 0.46
+                amountWithTax: 8.86
+              - productRef: null
+                productLabel: Frais de port
+                quantity: 1
+                packaging: PCE
+                unitPrice: 2.8
+                vatRate: 20
+                amountWithoutTax: 2.8
+                amountTax: 0.59
+                amountWithTax: 3.39
+            totalWithoutTax: 11.2
+            totalTax: 1.05
+            totalWithTax: 12.25
+        billing:
+          subscriptionRef: SUB-YTYE65687
+          createdAt: '2022-04-22'
+          commingSoon: ...
+    OperationResponse:
+      value:
+        operationId: 867658
+        operationRef: HA-8768376537
+        customerRef: HA-8768376537
+        operationAt: '2022-04-27'
+        order:
+          - shipmentAddress: null
+            shipmentContact:
+              - productRef: '1116420'
+                productLabel: Carnet de 12 timbres Marianne Vert - Lettre verte
+                quantity: 1
+                packaging: PCE
+                unitPrice: 8.4
+                vatRate: 5.5
+                amountWithoutTax: 8.4
+                amountTax: 0.46
+                amountWithTax: 8.86
+              - productRef: null
+                productLabel: Frais de port
+                quantity: 1
+                packaging: PCE
+                unitPrice: 2.8
+                vatRate: 20
+                amountWithoutTax: 2.8
+                amountTax: 0.59
+                amountWithTax: 3.39
+            totalWithoutTax: 11.2
+            totalTax: 1.05
+            totalWithTax: 12.25
+        billing:
+          subscriptionRef: SUB-YTYE65687
+          createdAt: '2022-04-22'
+          commingSoon: ...
+    OperationsResponse:
+      value:
+        operations:
+          - operationId: 867658
+            operationRef: HA-8768376537
+            customerRef: HA-8768376537
+            operationAt: '2022-04-27'
+            order:
+              - shipmentAddress: null
+                shipmentContact:
+                  - productRef: '1116420'
+                    productLabel: Carnet de 12 timbres Marianne Vert - Lettre verte
+                    quantity: 1
+                    packaging: PCE
+                    unitPrice: 8.4
+                    vatRate: 5.5
+                    amountWithoutTax: 8.4
+                    amountTax: 0.46
+                    amountWithTax: 8.86
+                  - productRef: null
+                    productLabel: Frais de port
+                    quantity: 1
+                    packaging: PCE
+                    unitPrice: 2.8
+                    vatRate: 20
+                    amountWithoutTax: 2.8
+                    amountTax: 0.59
+                    amountWithTax: 3.39
+                totalWithoutTax: 11.2
+                totalTax: 1.05
+                totalWithTax: 12.25
+            billing:
+              subscriptionRef: SUB-YTYE65687
+              createdAt: '2022-04-22'
+              commingSoon: ...
+        metadata:
+          query: /subscriptions?customerRef=124&status=ACTIVE
+          countItems: 1
+          totalItems: 1
+          totalPages: 1
+    SubscriptionRequest:
+      value:
+        subscriptionType: DEFERRED_BILLING
+        contract:
+          contractId: '786876725453'
+          contractRef: CTR-JHKJQGFSHFHGS
+          createdAt: '2022-04-22'
+          activatedAt: '2022-04-24'
+          expireAt: '2023-04-01'
+          status: ACTIVE
+        seller:
+          sellerRef: esgi SA
+          contactPerson:
+            gender: M
+            firstName: Jean
+            lastName: VEND
+            mail: jean.vend@esgi.fr
+            phone: +33 (0)1 56 87 65 78
+        buyer:
+          buyerRef: esgi SA
+          buyerType: PROFESSIONNAL
+          party:
+            customerId: PRO-8996786873
+            customerRef: CUSTOMER REF
+          contactPerson:
+            gender: M
+            firstName: John
+            lastName: DOE
+            mail: john.doe@acme.com
+            phone: +33 (0)7 76 77 00 00
+    SubscriptionResponse:
+      value:
+        subscriptionId: '58761542'
+        subscriptionRef: SUB-YTYE65687
+        subscriptionType: DEFERRED_BILLING
+        contract:
+          contractId: '786876725453'
+          contractRef: CTR-JHKJQGFSHFHGS
+          createdAt: '2022-04-22'
+          activatedAt: '2022-04-24'
+          expireAt: '2023-04-01'
+          status: ACTIVE
+        seller:
+          sellerRef: esgi SA
+          contactPerson:
+            gender: M
+            firstName: Jean
+            lastName: VEND
+            mail: jean.vend@esgi.fr
+            phone: +33 (0)1 56 87 65 78
+        buyer:
+          buyerRef: esgi SA
+          buyerType: PROFESSIONNAL
+          party:
+            customerId: PRO-8996786873
+            customerRef: CUSTOMER REF
+          contactPerson:
+            gender: M
+            firstName: John
+            lastName: DOE
+            mail: john.doe@acme.com
+            phone: +33 (0)7 76 77 00 00
+    SubscriptionsResponse:
+      value:
+        subscriptions:
+          - subscriptionId: '58761542'
+            subscriptionRef: SUB-YTYE65687
+            subscriptionType: DEFERRED_BILLING
+            contract:
+              contractId: '786876725453'
+              contractRef: CTR-JHKJQGFSHFHGS
+              createdAt: '2022-04-22'
+              activatedAt: '2022-04-24'
+              expireAt: '2023-04-01'
+              status: ACTIVE
+            seller:
+              sellerRef: esgi SA
+              contactPerson:
+                gender: M
+                firstName: Jean
+                lastName: VEND
+                mail: jean.vend@esgi.fr
+                phone: +33 (0)1 56 87 65 78
+            buyer:
+              buyerRef: esgi SA
+              buyerType: PROFESSIONNAL
+              party:
+                customerId: PRO-8996786873
+                customerRef: CUSTOMER REF
+              contactPerson:
+                gender: M
+                firstName: John
+                lastName: DOE
+                mail: john.doe@acme.com
+                phone: +33 (0)7 76 77 00 00
+        metadata:
+          query: /subscriptions?customerRef=123&status=ACTIVE
+          countItems: 1
+          totalItems: 1
+          totalPages: 1
