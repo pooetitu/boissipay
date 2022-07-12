@@ -370,6 +370,7 @@ components:
           type: string
         line5:
           description: LIEU DIT ou SERVICE PARTICULIER DE DISTRIBUTION
+          type: string
         locality:
           description: Name of the locality of the address
           type: string
@@ -392,8 +393,9 @@ components:
         - lastName
         - mail
       properties:
-        ccui:
-          description: CCUI
+        ccuid:
+          description: CCUID
+          type: string
           example: CCU-123
         gender:
           description: Gender of the contact
@@ -531,10 +533,7 @@ components:
             - PROFESSIONNAL
           example: PROFESSIONNAL
         party:
-          type: object
-          oneOf:
-            - $ref: '#/components/schemas/BusinessProfessionnalParty'
-            - $ref: '#/components/schemas/BusinessParticularParty'
+          $ref: '#/components/schemas/BusinessProfessionnalParty'
         eInvoicing:
           description: Necessary for e-Invoicing & e-Reporting
           type: object
@@ -638,9 +637,7 @@ components:
         subscriber:
           $ref: '#/components/schemas/BusinessSubscriber'
         custom:
-          type: object
-          oneOf:
-            - $ref: '#/components/schemas/DeferredBilling'
+          $ref: '#/components/schemas/DeferredBilling'
 
       example:
         ContractResponse:
