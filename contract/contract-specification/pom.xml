@@ -7,7 +7,7 @@
     <parent>
         <artifactId>contract</artifactId>
         <groupId>org.esgi.boissipay</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>contract-specification</artifactId>

@@ -5,7 +5,7 @@
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.esgi</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 		<artifactId>boissipay</artifactId>
 	</parent>
 	<modules>
@@ -14,7 +14,7 @@
 	</modules>
 	<groupId>org.esgi.boissipay</groupId>
 	<artifactId>contract</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>contract</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

@@ -7,7 +7,7 @@
     <parent>
         <artifactId>billing</artifactId>
         <groupId>org.esgi.boissipay</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>billing-specification</artifactId>
