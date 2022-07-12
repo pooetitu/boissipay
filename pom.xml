@@ -20,7 +20,8 @@
     </properties>
 
     <modules>
+        <module>kafka</module>
         <module>billing</module>
         <module>contract</module>
-        <module>kafka</module>
-    </modules></project>
+    </modules>
+</project>
