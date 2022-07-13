@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  kafka:
+    image: landoop/fast-data-dev:latest
+    environment:
+      ADV_HOST: kafka
+      RUNTESTS: 0             # Disable Running tests so the cluster starts faster
+      FORWARDLOGS: 0          # Disable running 5 file source connectors that bring application logs into Kafka topics
+      SAMPLEDATA: 0           # Do not create sea_vessel_position_reports, nyc_yellow_taxi_trip_data, reddit_posts topics with sample Avro records.
+    restart: unless-stopped
+    networks:
+      - boissipay-network
+    ports:
+      # - 2181:2181               # Zookeeper
+      - '3030:3030'               # Landoop UI
+      # - 8081-8083:8081-8083     # REST Proxy, Schema Registry, Kafka Connect ports
+      # - 9581-9585:9581-9585     # JMX Ports
+      # - '9092:9092'
+    volumes:
+      - 'kafka_data:/data'
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  contract:
+    depends_on:
+      kafka:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile.contract
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      KAFKA_GROUP_ID: boissipay
+      KAFKA_AUTO_OFFSET_RESET: earliest
+      KAFKA_TOPIC_CREATE_CONTRACT: create-contract
+    restart: unless-stopped
+    networks:
+      - boissipay-network
+    ports:
+      - '8080:8080'
+
+  billing:
+    depends_on:
+      kafka:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile.billing
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      KAFKA_GROUP_ID: boissipay
+      KAFKA_AUTO_OFFSET_RESET: earliest
+      KAFKA_TOPIC_CREATE_CONTRACT: create-contract
+    restart: unless-stopped
+    networks:
+      - boissipay-network
+    ports:
+      - '8181:8080'
+
+
+volumes:
+  kafka_data:
+
+networks:
+  boissipay-network:
+    driver: bridge
