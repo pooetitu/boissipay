@@ -5,10 +5,10 @@ import java.time.ZonedDateTime;
 import org.esgi.boissipay.billing.domain.PaymentRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 
-public final class MonthlyInvoiceScheduler {
+public final class MonthlyBillingScheduler {
     private final PaymentRepository paymentRepository;
 
-    public MonthlyInvoiceScheduler(PaymentRepository paymentRepository) {
+    public MonthlyBillingScheduler(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 
