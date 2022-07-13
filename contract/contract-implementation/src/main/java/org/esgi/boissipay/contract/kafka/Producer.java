@@ -2,8 +2,10 @@ package org.esgi.boissipay.contract.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.esgi.boissipay.contract.model.BusinessPerson;
 import org.esgi.boissipay.contract.model.ContractRequest;
 import org.esgi.boissipay.kafka.KafkaException;
+import org.esgi.boissipay.kafka.schema.ContactPerson;
 import org.esgi.boissipay.kafka.schema.NewContract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +30,14 @@ public class Producer {
 
     public void sendContractCreateEvent(ContractRequest request) {
         logger.info("Sending contract creation event to Kafka");
+        BusinessPerson contact = request.getDistributor().getContactPerson();
         var newContract = new NewContract()
-                .setName(request.getProductRef().getValue());
+            .setName(request.getProductRef().getValue())
+            .setContactPerson(new ContactPerson()
+                .setFirstname(contact.getFirstName())
+                .setLastname(contact.getLastName())
+                .setMail(contact.getMail())
+                .setPhone(contact.getPhone()));
         String stringNewContract = null;
         try {
             stringNewContract = objectMapper.writeValueAsString(newContract);
