@@ -12,14 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
 public final class Producer implements CreatedPaymentHandler {
     private static final Logger logger = LoggerFactory.getLogger(Producer.class);
     private final String createBillingTopicName;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper mapper;
 
-    public Producer(@Value("create-billing") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
+    public Producer(String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.createBillingTopicName = createBillingTopicName;
         this.kafkaTemplate = kafkaTemplate;
         this.mapper = objectMapper;
@@ -32,7 +31,7 @@ public final class Producer implements CreatedPaymentHandler {
     }
 
     private String billingToString(CreatePaymentRequest billing) {
-        String billingAsString = null;
+        String billingAsString;
         try {
             billingAsString = mapper.writeValueAsString(billing);
 

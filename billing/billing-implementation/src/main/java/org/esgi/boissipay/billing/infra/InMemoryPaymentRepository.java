@@ -27,9 +27,13 @@ public final class InMemoryPaymentRepository implements PaymentRepository {
     }
 
     @Override
-    public List<Payment> getBillOfLastMonth(ZonedDateTime endDate) {
-        var startDate = endDate.minusMonths(1);
-        return payments.stream().filter(b -> b.instant().isAfter(startDate)).toList();
+    public List<Payment> getUnpaidPayments() {
+        return payments.stream().filter(b -> !b.billed()).toList();
+    }
+
+    @Override
+    public void delete(Payment payment) {
+        payments.remove(payment);
     }
 
     public int count() {

@@ -31,7 +31,7 @@ public final class CreatePaymentUseCase {
     }
 
     private Payment buildBillingFromMessage(String message) {
-        NewContract newContract = null;
+        NewContract newContract;
         try {
             newContract = mapper.readValue(message, NewContract.class);
         } catch(IOException ex) {
