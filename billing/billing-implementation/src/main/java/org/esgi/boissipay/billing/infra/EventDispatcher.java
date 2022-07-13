@@ -16,7 +16,7 @@ public final class EventDispatcher {
         this.createdInvoiceHandlers = createdInvoiceHandlers;
     }
 
-    public void dispatchCreateBilling(CreatePaymentRequest request) {
+    public void dispatchCreatePayment(CreatePaymentRequest request) {
         for (var listener : createdBillListeners) {
             listener.onBillCreated(request);
         }

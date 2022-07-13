@@ -19,7 +19,7 @@ public final class Consumer {
     @KafkaListener(topics = "#{'${kafka.topic.create-contract}'.split(',')}")
     public void consume(String message) {
         logger.info("Received message: " + message);
-        createPaymentUseCase.createBilling(message);
+        createPaymentUseCase.createPayment(message);
     }
 
 

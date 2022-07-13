@@ -25,7 +25,7 @@ public class CreatePaymentUseCaseTest {
     @Test
     void test_create_billing() {
         var kafkaInput = "{\"name\": \"test\"}";
-        createPaymentUseCase.createBilling(kafkaInput);
+        createPaymentUseCase.createPayment(kafkaInput);
         assertEquals(repo.count(), 1);
     }
 }
