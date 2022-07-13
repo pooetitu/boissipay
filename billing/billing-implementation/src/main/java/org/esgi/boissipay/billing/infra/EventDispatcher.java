@@ -1,18 +1,18 @@
 package org.esgi.boissipay.billing.infra;
 
-import org.esgi.boissipay.billing.domain.CreatedBillingListener;
-import org.esgi.boissipay.billing.exposition.CreateBillingRequest;
+import org.esgi.boissipay.billing.domain.CreatedPaymentHandler;
+import org.esgi.boissipay.billing.exposition.CreatePaymentRequest;
 
 import java.util.Set;
 
 public final class EventDispatcher {
-    private final Set<CreatedBillingListener> createdBillListeners;
+    private final Set<CreatedPaymentHandler> createdBillListeners;
 
-    public EventDispatcher(Set<CreatedBillingListener> createdBillListeners) {
+    public EventDispatcher(Set<CreatedPaymentHandler> createdBillListeners) {
         this.createdBillListeners = createdBillListeners;
     }
 
-    public void dispatchCreateBilling(CreateBillingRequest request) {
+    public void dispatchCreateBilling(CreatePaymentRequest request) {
         for (var listener : createdBillListeners) {
             listener.onBillCreated(request);
         }

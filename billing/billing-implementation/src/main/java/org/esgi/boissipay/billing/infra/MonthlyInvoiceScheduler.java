@@ -2,19 +2,19 @@ package org.esgi.boissipay.billing.infra;
 
 import java.time.ZonedDateTime;
 
-import org.esgi.boissipay.billing.domain.BillingRepository;
+import org.esgi.boissipay.billing.domain.PaymentRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public final class MonthlyInvoiceScheduler {
-    private final BillingRepository billingRepository;
+    private final PaymentRepository paymentRepository;
 
-    public MonthlyInvoiceScheduler(BillingRepository billingRepository) {
-        this.billingRepository = billingRepository;
+    public MonthlyInvoiceScheduler(PaymentRepository paymentRepository) {
+        this.paymentRepository = paymentRepository;
     }
 
     @Scheduled()
     public void createInvoice() {
-        var bills = billingRepository.getBillOfLastMonth(ZonedDateTime.now());
+        var bills = paymentRepository.getBillOfLastMonth(ZonedDateTime.now());
         // TODO for each bills notify user concerned
 
         // faire emergée une notion de payment et de bill

@@ -2,11 +2,11 @@ package org.esgi.boissipay.billing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.esgi.boissipay.billing.domain.BillingRepository;
+import org.esgi.boissipay.billing.domain.PaymentRepository;
 import org.esgi.boissipay.billing.infra.EventDispatcher;
-import org.esgi.boissipay.billing.infra.InMemoryBillingRepository;
+import org.esgi.boissipay.billing.infra.InMemoryPaymentRepository;
 import org.esgi.boissipay.billing.kafka.Producer;
-import org.esgi.boissipay.billing.use_case.CreateBillingUseCase;
+import org.esgi.boissipay.billing.use_case.CreatePaymentUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +25,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public BillingRepository billingRepository() {
-        return InMemoryBillingRepository.newEmptyInMemoryBillingRepository();
+    public PaymentRepository paymentRepository() {
+        return InMemoryPaymentRepository.newEmptyInMemoryBillingRepository();
     }
 
     @Bean
@@ -42,7 +42,7 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public CreateBillingUseCase createBillingUseCase() {
-        return new CreateBillingUseCase(billingRepository(), objectMapper(), eventDispatcher());
+    public CreatePaymentUseCase createPaymentUseCase() {
+        return new CreatePaymentUseCase(paymentRepository(), objectMapper(), eventDispatcher());
     }
 }
