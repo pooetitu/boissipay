@@ -1,11 +1,11 @@
 FROM maven:3.8.5-eclipse-temurin-17-alpine as build
 WORKDIR /app
 COPY pom.xml .
+COPY ./billing/ ./billing/
 COPY ./contract/ ./contract/
 COPY ./kafka/ ./kafka/
 
-RUN mvn -f kafka/pom.xml install -DskipTests && \
-    mvn -f contract/pom.xml install -DskipTests
+RUN mvn clean install -DskipTests
 
 FROM openjdk:17-alpine
 WORKDIR /app
