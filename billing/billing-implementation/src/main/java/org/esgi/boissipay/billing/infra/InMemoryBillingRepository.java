@@ -1,14 +1,14 @@
 package org.esgi.boissipay.billing.infra;
 
-import org.esgi.boissipay.billing.BillingRepository;
-import org.esgi.boissipay.billing.models.Billing;
+import org.esgi.boissipay.billing.domain.BillingRepository;
+import org.esgi.boissipay.billing.domain.Billing;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class InMemoryBillingRepository implements BillingRepository {
+public final class InMemoryBillingRepository implements BillingRepository {
     private final Set<Billing> billings;
 
     private InMemoryBillingRepository(Set<Billing> billings) {

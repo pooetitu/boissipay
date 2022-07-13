@@ -1,6 +1,6 @@
 package org.esgi.boissipay.billing.infra;
 
-import org.esgi.boissipay.billing.models.Billing;
+import org.esgi.boissipay.billing.domain.Billing;
 import org.esgi.boissipay.kafka.schema.NewContract;
 
 import java.time.ZonedDateTime;
