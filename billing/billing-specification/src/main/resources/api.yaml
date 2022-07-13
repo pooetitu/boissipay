@@ -745,6 +745,7 @@ components:
           type: string
         line5:
           description: LIEU DIT ou SERVICE PARTICULIER DE DISTRIBUTION
+          type: string
         locality:
           description: Name of the locality of the address
           type: string
@@ -953,8 +954,6 @@ components:
                 createdAt:
                   type: string
                   format: date
-                commingSoon:
-                  type: object
             invoice:
               type: object
               properties:
@@ -963,8 +962,6 @@ components:
                 createdAt:
                   type: string
                   format: date
-                commingSoon:
-                  type: object
         - $ref: '#/components/schemas/OperationRequest'
       example:
         $ref: '#/components/examples/OperationResponse'
@@ -1158,10 +1155,7 @@ components:
             - PROFESSIONNAL
           example: PROFESSIONNAL
         party:
-          type: object
-          oneOf:
-            - $ref: '#/components/schemas/BusinessProfessionnalParty'
-            - $ref: '#/components/schemas/BusinessParticularParty'
+          $ref: '#/components/schemas/BusinessProfessionnalParty'
         eInvoicing:
           description: Necessary for e-Invoicing & e-Reporting
           type: object
@@ -1345,7 +1339,6 @@ components:
         billing:
           subscriptionRef: SUB-YTYE65687
           createdAt: '2022-04-22'
-          commingSoon: ...
     OperationResponse:
       value:
         operationId: 867658
@@ -1379,7 +1372,6 @@ components:
         billing:
           subscriptionRef: SUB-YTYE65687
           createdAt: '2022-04-22'
-          commingSoon: ...
     OperationsResponse:
       value:
         operations:
@@ -1414,7 +1406,6 @@ components:
             billing:
               subscriptionRef: SUB-YTYE65687
               createdAt: '2022-04-22'
-              commingSoon: ...
         metadata:
           query: /subscriptions?customerRef=124&status=ACTIVE
           countItems: 1
