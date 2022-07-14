@@ -25,13 +25,13 @@ public final class MonthlyBillingScheduler {
         var payments = paymentRepository.getUnpaidPayments();
         payments.forEach(payment -> {
             processPaymentUseCase.pay(payment);
-            var invoice = invoices.get(payment.contractName());
-            if (invoice == null) {
-                invoice = new Invoice(payment.contractName(), payment.contactPerson(), ZonedDateTime.now(), new ArrayList<>());
-                invoices.put(payment.contractName(), invoice);
-            } else {
+            invoices.compute(payment.contractName(), (key, invoice) -> {
+                if (invoice == null) {
+                    invoice = new Invoice(payment.contractName(), payment.contactPerson(), ZonedDateTime.now(), new ArrayList<>());
+                }
                 invoice.payments().add(payment);
-            }
+                return invoice;
+            });
         });
         invoices.values().forEach(eventDispatcher::dispatchCreateInvoice);
 
