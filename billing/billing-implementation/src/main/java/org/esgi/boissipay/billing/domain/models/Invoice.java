@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public record Invoice(
+    String invoiceRef,
     String contractRef,
     String contractId,
     ContactPerson contactPerson,

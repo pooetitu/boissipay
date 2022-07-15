@@ -29,7 +29,8 @@ public final class DefaultEventDispatcher implements EventDispatcher {
                                   Set<InvoiceSentHandler> invoiceSentHandlers,
                                   Set<PaymentSuccessHandler> paymentSuccessHandlers,
                                   Set<ProcessPaymentHandler> processPaymentHandlers,
-                                  Set<SendInvoiceHandler> sendInvoiceHandlers, Set<NewOperationHandler> newOperationHandlers) {
+                                  Set<SendInvoiceHandler> sendInvoiceHandlers,
+                                  Set<NewOperationHandler> newOperationHandlers) {
         this.createContractHandlers = createContractHandlers;
         this.invoiceSentHandlers = invoiceSentHandlers;
         this.paymentSuccessHandlers = paymentSuccessHandlers;

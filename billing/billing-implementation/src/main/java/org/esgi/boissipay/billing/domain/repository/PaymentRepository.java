@@ -13,6 +13,8 @@ public interface PaymentRepository {
 
     List<Payment> getUnpaidPayments();
 
+    List<Payment> getByInvoiceRef(String invoiceRef);
+
     List<Payment> getContractPayments(String contractId);
 
     List<Payment> getContractUnpaidPayments(String contractId);

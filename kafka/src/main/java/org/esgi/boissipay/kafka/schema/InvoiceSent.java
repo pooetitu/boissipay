@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record InvoiceSent(
+    @JsonProperty String invoiceRef,
     @JsonProperty String contractName,
     @JsonProperty String contractRef,
     @JsonProperty String contractId,

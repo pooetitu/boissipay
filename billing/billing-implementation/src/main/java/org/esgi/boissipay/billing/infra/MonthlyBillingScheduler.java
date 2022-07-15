@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public final class MonthlyBillingScheduler {
     private final PaymentRepository paymentRepository;
@@ -34,6 +35,7 @@ public final class MonthlyBillingScheduler {
                     var invoice = invoices.get(payment.operation().contactPerson().ccuid());
                     if (invoice == null) {
                         invoice = new Invoice(
+                            UUID.randomUUID().toString(),
                             contract.ref(),
                             contract.id(),
                             payment.operation().contactPerson(),

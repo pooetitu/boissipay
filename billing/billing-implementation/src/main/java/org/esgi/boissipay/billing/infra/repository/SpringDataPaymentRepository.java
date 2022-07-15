@@ -34,6 +34,11 @@ public class SpringDataPaymentRepository implements PaymentRepository {
     }
 
     @Override
+    public List<Payment> getByInvoiceRef(String invoiceRef) {
+        return jpaPaymentRepository.findByInvoiceRef(invoiceRef).stream().map(PaymentMapper::toPayment).toList();
+    }
+
+    @Override
     public List<Payment> getContractPayments(String contractId) {
         return jpaPaymentRepository.findByContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
     }

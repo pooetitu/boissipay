@@ -9,15 +9,27 @@ public class Payment{
     private LocalDate createdAt;
     private LocalDate payedAt;
 
+    private String invoiceRef;
+
     public Payment() {
     }
 
-    public Payment(String id, Operation operation, boolean billed, LocalDate createdAt, LocalDate payedAt) {
+    public Payment(String id, Operation operation, boolean billed, LocalDate createdAt, LocalDate payedAt, String invoiceRef) {
         this.id = id;
         this.operation = operation;
         this.billed = billed;
         this.createdAt = createdAt;
         this.payedAt = payedAt;
+        this.invoiceRef = invoiceRef;
+    }
+
+    public String invoiceRef() {
+        return invoiceRef;
+    }
+
+    public Payment setInvoiceRef(String invoiceRef) {
+        this.invoiceRef = invoiceRef;
+        return this;
     }
 
     public String id() {

@@ -16,7 +16,8 @@ public class PaymentMapper {
             .setBilled(payment.billed())
             .setCreatedAt(payment.createdAt())
             .setId(payment.id())
-            .setPayedAt(payment.payedAt());
+            .setPayedAt(payment.payedAt())
+            .setInvoiceRef(payment.invoiceRef());
     }
 
     public static Payment toPayment(PaymentEntity paymentEntity) {
@@ -25,7 +26,8 @@ public class PaymentMapper {
             null,
             paymentEntity.billed(),
             paymentEntity.createdAt(),
-            paymentEntity.payedAt()
+            paymentEntity.payedAt(),
+            paymentEntity.invoiceRef()
         );
     }
 
@@ -42,13 +44,13 @@ public class PaymentMapper {
 
     public static Payment toPayment(PaymentSuccess paymentSuccess) {
         return new Payment(
-            paymentSuccess.paymentId(), null, false, null, null
+            paymentSuccess.paymentId(), null, false, null, null, null
         );
     }
 
-    public static Payment toPayment(String paymentId) {
+    public static Payment toPayment(String paymentId, String invoiceRef) {
         return new Payment(
-            paymentId, null, false, null, null
+            paymentId, null, false, null, null, invoiceRef
         );
     }
 }

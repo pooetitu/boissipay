@@ -11,6 +11,8 @@ public interface JPAPaymentRepository extends JpaRepository<PaymentEntity, Strin
     List<PaymentEntity> findByPayedAtNull();
     List<PaymentEntity> findByPayedAtNullAndContractId(String contractId);
 
+    List<PaymentEntity> findByInvoiceRef(String invoiceRef);
+
     List<PaymentEntity> findByPayedAtNotNullAndBilledFalseAndContractId(String contractId);
 
     List<PaymentEntity> findByPayedAtNotNullAndBilledTrueAndContractId(String contractId);

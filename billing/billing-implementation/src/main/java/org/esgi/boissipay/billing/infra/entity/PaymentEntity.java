@@ -11,6 +11,8 @@ public class PaymentEntity {
     @Id
     private String id;
 
+    private String invoiceRef;
+
     private String operationId;
 
     private boolean billed;
@@ -24,13 +26,23 @@ public class PaymentEntity {
     public PaymentEntity() {
     }
 
-    public PaymentEntity(String id, String operationId, boolean billed, LocalDate createdAt, LocalDate payedAt, String contractId) {
+    public PaymentEntity(String id, String invoiceRef, String operationId, boolean billed, LocalDate createdAt, LocalDate payedAt, String contractId) {
         this.id = id;
+        this.invoiceRef = invoiceRef;
         this.operationId = operationId;
         this.billed = billed;
         this.createdAt = createdAt;
         this.payedAt = payedAt;
         this.contractId = contractId;
+    }
+
+    public String invoiceRef() {
+        return invoiceRef;
+    }
+
+    public PaymentEntity setInvoiceRef(String invoiceRef) {
+        this.invoiceRef = invoiceRef;
+        return this;
     }
 
     public String operationId() {
