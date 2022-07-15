@@ -1,29 +1,21 @@
-package org.esgi.boissipay.billing;
+package org.esgi.boissipay.billing.infra;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.esgi.boissipay.billing.domain.PaymentRepository;
-import org.esgi.boissipay.billing.infra.EventDispatcher;
-import org.esgi.boissipay.billing.infra.InMemoryPaymentRepository;
+import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
 import org.esgi.boissipay.billing.kafka.Producer;
 import org.esgi.boissipay.billing.use_case.CreatePaymentUseCase;
 import org.esgi.boissipay.billing.use_case.NotifyInvoiceUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.Collections;
 import java.util.HashSet;
-import org.springframework.kafka.core.KafkaTemplate;
 
 @Configuration
 public class BillingConfiguration {
-
-    @Bean
-    public PaymentRepository paymentRepository() {
-        return InMemoryPaymentRepository.newEmptyInMemoryBillingRepository();
-    }
 
     @Bean
     public Producer producer(@Value("${kafka.topic.create-billing}") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
@@ -43,8 +35,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public CreatePaymentUseCase createPaymentUseCase(Producer producer) {
-        return new CreatePaymentUseCase(paymentRepository(), objectMapper(), eventDispatcher(producer));
+    public CreatePaymentUseCase createPaymentUseCase(Producer producer, PaymentRepository paymentRepository) {
+        return new CreatePaymentUseCase(paymentRepository, objectMapper(), eventDispatcher(producer));
     }
 
     @Bean

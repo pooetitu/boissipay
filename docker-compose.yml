@@ -25,8 +25,29 @@ services:
       timeout: 10s
       retries: 10
 
+  contract_db:
+    image: bitnami/postgresql:14
+    environment:
+      POSTGRESQL_USERNAME: contract
+      POSTGRESQL_PASSWORD: contract
+      POSTGRESQL_DATABASE: contract
+#    ports:
+#      - "5432:5432"
+    volumes:
+      - contract_db_data:/bitnami/postgresql
+    restart: unless-stopped
+    networks:
+      - boissipay-network
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "contract", "-d", "contract" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
   contract:
     depends_on:
+      contract_db:
+        condition: service_healthy
       kafka:
         condition: service_healthy
     build:
@@ -38,14 +59,44 @@ services:
       KAFKA_GROUP_ID: boissipay
       KAFKA_AUTO_OFFSET_RESET: earliest
       KAFKA_TOPIC_CREATE_CONTRACT: create-contract
+      DATASOURCE_CONNECTION_TIMEOUT: 20000
+      DATASOURCE_MAXIMUM_POOL_SIZE: 5
+      H2_CONSOLE_ENABLED: true
+      JPA_OPEN_IN_VIEW: false
+      JPA_GENERATE_DDL: true
+      DATABASE_HOST: contract_db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: contract
+      DATABASE_USER: contract
+      DATABASE_PASSWORD: contract
+      JPA_HIBERNATE_DDL_AUTO: update
     restart: unless-stopped
     networks:
       - boissipay-network
     ports:
       - '8080:8080'
 
+  billing_db:
+    image: bitnami/postgresql:14
+    environment:
+      POSTGRESQL_USERNAME: billing
+      POSTGRESQL_PASSWORD: billing
+      POSTGRESQL_DATABASE: billing
+    volumes:
+      - billing_db_data:/bitnami/postgresql
+    restart: unless-stopped
+    networks:
+      - boissipay-network
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "billing", "-d", "billing" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
   billing:
     depends_on:
+      billing_db:
+        condition: service_healthy
       kafka:
         condition: service_healthy
     build:
@@ -57,6 +108,20 @@ services:
       KAFKA_GROUP_ID: boissipay
       KAFKA_AUTO_OFFSET_RESET: earliest
       KAFKA_TOPIC_CREATE_CONTRACT: create-contract
+      KAFKA_TOPIC_CREATE_PAYMENT: create-payment
+      KAFKA_TOPIC_CREATE_BILLING: create-billing
+      DATASOURCE_CONNECTION_TIMEOUT: 20000
+      DATASOURCE_MAXIMUM_POOL_SIZE: 5
+      H2_CONSOLE_ENABLED: true
+      JPA_OPEN_IN_VIEW: false
+      JPA_GENERATE_DDL: true
+      DATABASE_HOST: billing_db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: billing
+      DATABASE_USER: billing
+      DATABASE_PASSWORD: billing
+      JPA_HIBERNATE_DDL_AUTO: update
+
     restart: unless-stopped
     networks:
       - boissipay-network
@@ -66,6 +131,8 @@ services:
 
 volumes:
   kafka_data:
+  contract_db_data:
+  billing_db_data:
 
 networks:
   boissipay-network:

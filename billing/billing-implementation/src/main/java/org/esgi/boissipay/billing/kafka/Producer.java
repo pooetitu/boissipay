@@ -6,9 +6,7 @@ import org.esgi.boissipay.billing.exposition.CreatePaymentRequest;
 import org.esgi.boissipay.kafka.KafkaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
@@ -35,7 +33,7 @@ public final class Producer implements CreatedPaymentHandler {
         try {
             billingAsString = mapper.writeValueAsString(billing);
 
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             throw new KafkaException(ex);
         }
         return billingAsString;

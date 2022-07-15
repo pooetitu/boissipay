@@ -1,10 +1,6 @@
 package org.esgi.boissipay.billing.infra;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import org.esgi.boissipay.billing.domain.Invoice;
-import org.esgi.boissipay.billing.domain.PaymentRepository;
+import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
 import org.esgi.boissipay.billing.use_case.ProcessPaymentUseCase;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -21,6 +17,7 @@ public final class MonthlyBillingScheduler {
 
     @Scheduled()
     public void createInvoice() {
+/*
         var invoices = new HashMap<String, Invoice>();
         var payments = paymentRepository.getUnpaidPayments();
         payments.forEach(payment -> {
@@ -29,11 +26,12 @@ public final class MonthlyBillingScheduler {
                 if (invoice == null) {
                     invoice = new Invoice(payment.contractName(), payment.contactPerson(), ZonedDateTime.now(), new ArrayList<>());
                 }
-                invoice.payments().add(payment);
+                invoice.paymentBaks().add(payment);
                 return invoice;
             });
         });
         invoices.values().forEach(eventDispatcher::dispatchCreateInvoice);
+*/
 
         // faire emergée une notion de payment et de bill
         // scheduler quand il faut

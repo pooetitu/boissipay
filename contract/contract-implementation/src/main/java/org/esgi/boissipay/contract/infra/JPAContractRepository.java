@@ -1,0 +1,9 @@
+package org.esgi.boissipay.contract.infra;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface JPAContractRepository extends JpaRepository<ContractEntity, String> {
+    List<ContractEntity> findByStatusEquals(String status);
+}

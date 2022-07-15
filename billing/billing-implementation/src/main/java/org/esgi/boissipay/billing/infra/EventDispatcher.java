@@ -2,7 +2,7 @@ package org.esgi.boissipay.billing.infra;
 
 import org.esgi.boissipay.billing.domain.CreatedInvoiceHandler;
 import org.esgi.boissipay.billing.domain.CreatedPaymentHandler;
-import org.esgi.boissipay.billing.domain.Invoice;
+import org.esgi.boissipay.billing.domain.models.Invoice;
 import org.esgi.boissipay.billing.exposition.CreatePaymentRequest;
 
 import java.util.Set;
