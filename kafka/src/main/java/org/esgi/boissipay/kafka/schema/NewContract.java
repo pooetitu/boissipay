@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 
-public final record NewContract(
+public record NewContract(
         @JsonProperty String contractId,
         @JsonProperty String contractRef,
         @JsonProperty String contractType,

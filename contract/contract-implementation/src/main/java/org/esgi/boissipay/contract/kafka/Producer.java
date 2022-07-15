@@ -2,11 +2,10 @@ package org.esgi.boissipay.contract.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.esgi.boissipay.contract.model.BusinessPerson;
-import org.esgi.boissipay.contract.model.ContractRequest;
+import org.esgi.boissipay.contract.kernel.ContractMapper;
+import org.esgi.boissipay.contract.domain.Contract;
+import org.esgi.boissipay.contract.domain.CreateContractHandler;
 import org.esgi.boissipay.kafka.KafkaException;
-import org.esgi.boissipay.kafka.schema.ContactPerson;
-import org.esgi.boissipay.kafka.schema.NewContract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Producer {
+public class Producer implements CreateContractHandler {
     private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 
     private final String createContractTopicName;
@@ -28,22 +27,20 @@ public class Producer {
         this.objectMapper = new ObjectMapper();
     }
 
-    public void sendContractCreateEvent(ContractRequest request) {
+    private void sendContractCreateEvent(Contract request) {
         logger.info("Sending contract creation event to Kafka");
-        BusinessPerson contact = request.getDistributor().getContactPerson();
-        var newContract = new NewContract()
-            .setName(request.getProductRef().getValue())
-            .setContactPerson(new ContactPerson()
-                .setFirstname(contact.getFirstName())
-                .setLastname(contact.getLastName())
-                .setMail(contact.getMail())
-                .setPhone(contact.getPhone()));
-        String stringNewContract = null;
+
+        String stringNewContract;
         try {
-            stringNewContract = objectMapper.writeValueAsString(newContract);
+            stringNewContract = objectMapper.writeValueAsString(ContractMapper.toNewContract(request));
         } catch (JsonProcessingException e) {
             throw new KafkaException(e);
         }
         kafkaTemplate.send(createContractTopicName, stringNewContract);
+    }
+
+    @Override
+    public void onContractCreated(Contract contract) {
+        sendContractCreateEvent(contract);
     }
 }

@@ -26,7 +26,7 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public Producer producer(@Value("create-billing") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
+    public Producer producer(@Value("${kafka.topic.create-billing}") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         return new Producer(createBillingTopicName, kafkaTemplate, objectMapper);
     }
 

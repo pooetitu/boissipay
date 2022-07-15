@@ -8,6 +8,6 @@ import java.time.ZonedDateTime;
 
 public class PaymentFactory {
     public static Payment createFrom(NewContract contract) {
-        return new Payment(ZonedDateTime.now(), new ContactPerson(contract.contactPerson().mail()), contract.name(), false);
+        return new Payment(ZonedDateTime.now(), new ContactPerson(contract.subscriber().contactPerson().email()), contract.subscriber().contactPerson().lastName(), false);
     }
 }
