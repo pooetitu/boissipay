@@ -11,6 +11,7 @@ public record NewContract(
         @JsonProperty LocalDate createdAt,
         @JsonProperty LocalDate activatedAt,
         @JsonProperty LocalDate expireAt,
-        @JsonProperty Subscriber subscriber
+        @JsonProperty Subscriber subscriber,
+        @JsonProperty String status
 ) {
 }

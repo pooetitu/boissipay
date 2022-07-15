@@ -7,9 +7,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 public final class MonthlyBillingScheduler {
     private final PaymentRepository paymentRepository;
     private final ProcessPaymentUseCase processPaymentUseCase;
-    private final EventDispatcher eventDispatcher;
+    private final DefaultEventDispatcher eventDispatcher;
 
-    public MonthlyBillingScheduler(PaymentRepository paymentRepository, ProcessPaymentUseCase processPaymentUseCase, EventDispatcher eventDispatcher) {
+    public MonthlyBillingScheduler(PaymentRepository paymentRepository, ProcessPaymentUseCase processPaymentUseCase, DefaultEventDispatcher eventDispatcher) {
         this.paymentRepository = paymentRepository;
         this.processPaymentUseCase = processPaymentUseCase;
         this.eventDispatcher = eventDispatcher;

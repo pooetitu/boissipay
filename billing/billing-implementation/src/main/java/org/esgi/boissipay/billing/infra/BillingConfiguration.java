@@ -3,7 +3,7 @@ package org.esgi.boissipay.billing.infra;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
-import org.esgi.boissipay.billing.kafka.Producer;
+import org.esgi.boissipay.billing.kafka.ProcessPaymentProducer;
 import org.esgi.boissipay.billing.use_case.CreatePaymentUseCase;
 import org.esgi.boissipay.billing.use_case.NotifyInvoiceUseCase;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +18,8 @@ import java.util.HashSet;
 public class BillingConfiguration {
 
     @Bean
-    public Producer producer(@Value("${kafka.topic.create-billing}") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
-        return new Producer(createBillingTopicName, kafkaTemplate, objectMapper);
+    public ProcessPaymentProducer producer(@Value("${kafka.topic.create-billing}") String createBillingTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
+        return new ProcessPaymentProducer(createBillingTopicName, kafkaTemplate, objectMapper);
     }
 
     @Bean
@@ -30,13 +30,13 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public EventDispatcher eventDispatcher(Producer producer) {
-        return new EventDispatcher(new HashSet<>(Collections.singleton(producer)), new HashSet<>(Collections.singleton(notifyInvoiceUseCase())));
+    public DefaultEventDispatcher eventDispatcher(ProcessPaymentProducer processPaymentProducer) {
+        return new DefaultEventDispatcher(new HashSet<>(Collections.singleton(processPaymentProducer)), new HashSet<>(Collections.singleton(notifyInvoiceUseCase())));
     }
 
     @Bean
-    public CreatePaymentUseCase createPaymentUseCase(Producer producer, PaymentRepository paymentRepository) {
-        return new CreatePaymentUseCase(paymentRepository, objectMapper(), eventDispatcher(producer));
+    public CreatePaymentUseCase createPaymentUseCase(ProcessPaymentProducer processPaymentProducer, PaymentRepository paymentRepository) {
+        return new CreatePaymentUseCase(paymentRepository, objectMapper(), eventDispatcher(processPaymentProducer));
     }
 
     @Bean

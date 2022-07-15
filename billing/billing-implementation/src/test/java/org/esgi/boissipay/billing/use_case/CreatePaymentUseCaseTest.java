@@ -1,12 +1,5 @@
 package org.esgi.boissipay.billing.use_case;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.esgi.boissipay.billing.infra.EventDispatcher;
-import org.junit.jupiter.api.BeforeAll;
-
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatePaymentUseCaseTest {

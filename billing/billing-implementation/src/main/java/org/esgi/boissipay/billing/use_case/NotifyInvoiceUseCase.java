@@ -1,6 +1,5 @@
 package org.esgi.boissipay.billing.use_case;
 
-import org.esgi.boissipay.billing.domain.CreatedInvoiceHandler;
 import org.esgi.boissipay.billing.domain.models.Invoice;
 
 public class NotifyInvoiceUseCase implements CreatedInvoiceHandler {
