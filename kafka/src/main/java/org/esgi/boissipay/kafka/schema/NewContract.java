@@ -2,27 +2,15 @@ package org.esgi.boissipay.kafka.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NewContract {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("contactPerson")
-    private ContactPerson contactPerson;
+import java.time.LocalDate;
 
-    public String name() {
-        return name;
-    }
-
-    public NewContract setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public ContactPerson contactPerson() {
-        return contactPerson;
-    }
-
-    public NewContract setContactPerson(ContactPerson contactPerson) {
-        this.contactPerson = contactPerson;
-        return this;
-    }
+public final record NewContract(
+        @JsonProperty String contractId,
+        @JsonProperty String contractRef,
+        @JsonProperty String contractType,
+        @JsonProperty LocalDate createdAt,
+        @JsonProperty LocalDate activatedAt,
+        @JsonProperty LocalDate expireAt,
+        @JsonProperty Subscriber subscriber
+) {
 }
