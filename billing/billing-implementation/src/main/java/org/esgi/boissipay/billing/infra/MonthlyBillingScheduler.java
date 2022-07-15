@@ -1,44 +1,52 @@
 package org.esgi.boissipay.billing.infra;
 
+import org.esgi.boissipay.billing.domain.models.Invoice;
+import org.esgi.boissipay.billing.domain.repository.ContractRepository;
 import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
-import org.esgi.boissipay.billing.use_case.ProcessPaymentUseCase;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class MonthlyBillingScheduler {
     private final PaymentRepository paymentRepository;
-    private final ProcessPaymentUseCase processPaymentUseCase;
+
+    private final ContractRepository contractRepository;
     private final DefaultEventDispatcher eventDispatcher;
 
-    public MonthlyBillingScheduler(PaymentRepository paymentRepository, ProcessPaymentUseCase processPaymentUseCase, DefaultEventDispatcher eventDispatcher) {
+    public MonthlyBillingScheduler(PaymentRepository paymentRepository, ContractRepository contractRepository, DefaultEventDispatcher eventDispatcher) {
         this.paymentRepository = paymentRepository;
-        this.processPaymentUseCase = processPaymentUseCase;
+        this.contractRepository = contractRepository;
         this.eventDispatcher = eventDispatcher;
     }
 
-    @Scheduled()
+    // Daily at 11am
+    @Scheduled(cron = "0 0 11 * * *")
     public void createInvoice() {
-/*
         var invoices = new HashMap<String, Invoice>();
-        var payments = paymentRepository.getUnpaidPayments();
-        payments.forEach(payment -> {
-            processPaymentUseCase.pay(payment);
-            invoices.compute(payment.contractName(), (key, invoice) -> {
-                if (invoice == null) {
-                    invoice = new Invoice(payment.contractName(), payment.contactPerson(), ZonedDateTime.now(), new ArrayList<>());
-                }
-                invoice.paymentBaks().add(payment);
-                return invoice;
-            });
-        });
-        invoices.values().forEach(eventDispatcher::dispatchCreateInvoice);
-*/
+        var contracts = contractRepository.getActiveContracts();
 
-        // faire emergée une notion de payment et de bill
-        // scheduler quand il faut
-        // mettre les schemas des events a jour.
-        // reception des events côte contract
-        // mise en place d'une "clean archi côté contrat ?"
-        // mise en place de redis (plus côté contrat)
-        // notifier les utilisateurs
+        contracts.forEach(contract -> {
+            var payments = paymentRepository.getPayedNotBilledPayments(contract.id());
+            payments.forEach(
+                payment -> {
+                    var invoice = invoices.get(payment.operation().contactPerson().ccuid());
+                    if (invoice == null) {
+                        invoice = new Invoice(
+                            contract.ref(),
+                            contract.id(),
+                            payment.operation().contactPerson(),
+                            ZonedDateTime.now(),
+                            new ArrayList<>()
+                        );
+                        invoices.put(payment.operation().contactPerson().ccuid(), invoice);
+                    }
+                    invoice.payments().add(payment);
+                }
+            );
+        });
+
+        invoices.values().forEach(eventDispatcher::dispatchSendInvoice);
     }
 }

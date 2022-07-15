@@ -2,7 +2,7 @@ package org.esgi.boissipay.billing.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.esgi.boissipay.billing.domain.EventDispatcher;
+import org.esgi.boissipay.billing.domain.event.EventDispatcher;
 import org.esgi.boissipay.billing.kernel.ContractMapper;
 import org.esgi.boissipay.kafka.KafkaException;
 import org.esgi.boissipay.kafka.schema.NewContract;
@@ -33,7 +33,7 @@ public final class CreateContractConsumer {
         } catch (JsonProcessingException e) {
             throw new KafkaException(e);
         }
-        eventDispatcher.dispatchCreateContact(ContractMapper.toContract(newContract));
+        eventDispatcher.dispatchCreateContract(ContractMapper.toContract(newContract));
     }
 
 

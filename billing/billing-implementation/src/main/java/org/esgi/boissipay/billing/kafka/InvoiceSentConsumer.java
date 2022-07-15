@@ -2,12 +2,10 @@ package org.esgi.boissipay.billing.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.esgi.boissipay.billing.domain.EventDispatcher;
+import org.esgi.boissipay.billing.domain.event.EventDispatcher;
 import org.esgi.boissipay.billing.kernel.InvoiceMapper;
-import org.esgi.boissipay.billing.kernel.PaymentMapper;
 import org.esgi.boissipay.kafka.KafkaException;
 import org.esgi.boissipay.kafka.schema.InvoiceSent;
-import org.esgi.boissipay.kafka.schema.PaymentSuccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;

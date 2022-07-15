@@ -1,7 +1,7 @@
 package org.esgi.boissipay.billing.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.esgi.boissipay.billing.domain.SendInvoiceHandler;
+import org.esgi.boissipay.billing.domain.event.SendInvoiceHandler;
 import org.esgi.boissipay.billing.domain.models.Invoice;
 import org.esgi.boissipay.billing.kernel.InvoiceMapper;
 import org.esgi.boissipay.kafka.KafkaException;

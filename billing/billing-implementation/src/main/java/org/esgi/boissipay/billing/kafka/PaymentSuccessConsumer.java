@@ -2,7 +2,7 @@ package org.esgi.boissipay.billing.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.esgi.boissipay.billing.domain.EventDispatcher;
+import org.esgi.boissipay.billing.domain.event.EventDispatcher;
 import org.esgi.boissipay.billing.kernel.PaymentMapper;
 import org.esgi.boissipay.kafka.KafkaException;
 import org.esgi.boissipay.kafka.schema.PaymentSuccess;

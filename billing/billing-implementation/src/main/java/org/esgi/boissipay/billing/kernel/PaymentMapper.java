@@ -22,7 +22,7 @@ public class PaymentMapper {
     public static Payment toPayment(PaymentEntity paymentEntity) {
         return new Payment(
             paymentEntity.id(),
-            OperationMapper.toOperation(paymentEntity.operation()),
+            null,
             paymentEntity.billed(),
             paymentEntity.createdAt(),
             paymentEntity.payedAt()
@@ -33,7 +33,7 @@ public class PaymentMapper {
         return new ProcessPayment(
             payment.id(),
             payment.operation().id(),
-            payment.operation().customerRef(),
+            payment.operation().contactPerson().ccuid(),
             payment.operation().orders().stream().mapToDouble(Order::priceWithoutTax).sum(),
             payment.operation().orders().stream().mapToDouble(Order::priceTax).sum(),
             payment.operation().orders().stream().mapToDouble(Order::priceWithTax).sum()

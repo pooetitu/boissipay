@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface JPAOrderRepository extends JpaRepository<OrderEntity, String> {
-    List<OrderEntity> findByOperation_Id(String operationId);
+    List<OrderEntity> findByOperationId(String operationId);
 }

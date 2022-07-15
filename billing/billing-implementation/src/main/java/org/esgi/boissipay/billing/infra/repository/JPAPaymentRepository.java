@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface JPAPaymentRepository extends JpaRepository<PaymentEntity, String> {
 
-    List<PaymentEntity> findByContract_Id(String contractId);
+    List<PaymentEntity> findByContractId(String contractId);
     List<PaymentEntity> findByPayedAtNull();
-    List<PaymentEntity> findByPayedAtNullAndContract_Id(String contractId);
+    List<PaymentEntity> findByPayedAtNullAndContractId(String contractId);
 
-    List<PaymentEntity> findByPayedAtNotNullAndBilledFalseAndContract_Id(String contractId);
+    List<PaymentEntity> findByPayedAtNotNullAndBilledFalseAndContractId(String contractId);
 
-    List<PaymentEntity> findByPayedAtNotNullAndBilledTrueAndContract_Id(String contractId);
+    List<PaymentEntity> findByPayedAtNotNullAndBilledTrueAndContractId(String contractId);
 }

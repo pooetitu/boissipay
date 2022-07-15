@@ -1,11 +1,12 @@
-package org.esgi.boissipay.billing.domain;
+package org.esgi.boissipay.billing.domain.event;
 
 import org.esgi.boissipay.billing.domain.models.Contract;
 import org.esgi.boissipay.billing.domain.models.Invoice;
+import org.esgi.boissipay.billing.domain.models.Operation;
 import org.esgi.boissipay.billing.domain.models.Payment;
 
 public interface EventDispatcher {
-    void dispatchCreateContact(Contract contract);
+    void dispatchCreateContract(Contract contract);
 
     void dispatchProcessPayment(Payment payment);
 
@@ -14,4 +15,6 @@ public interface EventDispatcher {
     void dispatchSendInvoice(Invoice invoice);
 
     void dispatchInvoiceSent(Invoice invoice);
+
+    void dispatchNewOperation(Operation operation);
 }

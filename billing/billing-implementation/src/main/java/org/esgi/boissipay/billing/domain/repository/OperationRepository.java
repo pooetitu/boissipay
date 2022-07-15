@@ -11,8 +11,6 @@ public interface OperationRepository {
 
     List<Operation> getOperations();
 
-    List<Operation> getOperationsByPayment(String paymentId);
-
     List<Operation> getOperationsByContract(String contractId);
 
     void delete(Operation operation);

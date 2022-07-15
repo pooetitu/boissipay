@@ -2,8 +2,6 @@ package org.esgi.boissipay.billing.infra.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -13,8 +11,7 @@ public class PaymentEntity {
     @Id
     private String id;
 
-    @OneToOne()
-    private OperationEntity operation;
+    private String operationId;
 
     private boolean billed;
 
@@ -22,19 +19,36 @@ public class PaymentEntity {
 
     private LocalDate payedAt;
 
-    @ManyToOne
-    private ContractEntity contract;
+    private String contractId;
 
     public PaymentEntity() {
     }
 
-    public PaymentEntity(String id, OperationEntity operation, boolean billed, LocalDate createdAt, LocalDate payedAt, ContractEntity contract) {
+    public PaymentEntity(String id, String operationId, boolean billed, LocalDate createdAt, LocalDate payedAt, String contractId) {
         this.id = id;
-        this.operation = operation;
+        this.operationId = operationId;
         this.billed = billed;
         this.createdAt = createdAt;
         this.payedAt = payedAt;
-        this.contract = contract;
+        this.contractId = contractId;
+    }
+
+    public String operationId() {
+        return operationId;
+    }
+
+    public PaymentEntity setOperationId(String operationId) {
+        this.operationId = operationId;
+        return this;
+    }
+
+    public String contractId() {
+        return contractId;
+    }
+
+    public PaymentEntity setContractId(String contractId) {
+        this.contractId = contractId;
+        return this;
     }
 
     public LocalDate payedAt() {
@@ -52,24 +66,6 @@ public class PaymentEntity {
 
     public PaymentEntity setId(String id) {
         this.id = id;
-        return this;
-    }
-
-    public OperationEntity operation() {
-        return operation;
-    }
-
-    public PaymentEntity setOperation(OperationEntity operation) {
-        this.operation = operation;
-        return this;
-    }
-
-    public ContractEntity contract() {
-        return contract;
-    }
-
-    public PaymentEntity setContract(ContractEntity contract) {
-        this.contract = contract;
         return this;
     }
 

@@ -1,4 +1,4 @@
-package org.esgi.boissipay.billing.domain;
+package org.esgi.boissipay.billing.domain.event;
 
 import org.esgi.boissipay.billing.domain.models.Payment;
 

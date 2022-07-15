@@ -15,7 +15,7 @@ public class SpringDataOrderRepository implements OrderRepository {
 
     @Override
     public void save(Order order) {
-var orderEntity = OrderMapper.toOrderEntity(order);
+        var orderEntity = OrderMapper.toOrderEntity(order);
         jpaOrderRepository.save(orderEntity);
     }
 
@@ -31,7 +31,7 @@ var orderEntity = OrderMapper.toOrderEntity(order);
 
     @Override
     public List<Order> getOrderByOperation(String operationId) {
-        return jpaOrderRepository.findByOperation_Id(operationId).stream().map(OrderMapper::toOrder).toList();
+        return jpaOrderRepository.findByOperationId(operationId).stream().map(OrderMapper::toOrder).toList();
     }
 
     @Override

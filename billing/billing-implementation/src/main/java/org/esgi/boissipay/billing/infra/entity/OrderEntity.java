@@ -2,14 +2,13 @@ package org.esgi.boissipay.billing.infra.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class OrderEntity {
     @Id
     private String orderRef;
-    @ManyToOne
-    private OperationEntity operation;
+
+    private String operationId;
     private String orderType;
     private String productRef;
     private String productLabel;
@@ -21,9 +20,9 @@ public class OrderEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(String orderRef, OperationEntity operation, String orderType, String productRef, String productLabel, String quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
+    public OrderEntity(String orderRef, String operationId, String orderType, String productRef, String productLabel, String quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
         this.orderRef = orderRef;
-        this.operation = operation;
+        this.operationId = operationId;
         this.orderType = orderType;
         this.productRef = productRef;
         this.productLabel = productLabel;
@@ -42,12 +41,12 @@ public class OrderEntity {
         return this;
     }
 
-    public OperationEntity operation() {
-        return operation;
+    public String operationId() {
+        return operationId;
     }
 
-    public OrderEntity setOperation(OperationEntity operation) {
-        this.operation = operation;
+    public OrderEntity setOperationId(String operationId) {
+        this.operationId = operationId;
         return this;
     }
 

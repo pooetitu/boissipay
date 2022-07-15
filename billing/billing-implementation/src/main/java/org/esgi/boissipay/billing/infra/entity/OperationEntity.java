@@ -2,11 +2,7 @@ package org.esgi.boissipay.billing.infra.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "operations")
@@ -15,26 +11,92 @@ public class OperationEntity {
     @Id
     private String id;
 
-    private String customerRef;
+    private String contractId;
 
-    @OneToOne(optional = true, mappedBy = "operation")
-    private PaymentEntity payment;
+    private String personCcuid;
+    private String personGender;
+    private String personFirstName;
+    private String personLastName;
+    private String personEmail;
+    private String personPhone;
 
-    @ManyToOne
-    private ContractEntity contract;
-
-    @OneToMany(mappedBy = "operation")
-    private List<OrderEntity> orders;
 
     public OperationEntity() {
     }
 
-    public OperationEntity(String id, String customerRef, PaymentEntity payment, ContractEntity contract, List<OrderEntity> orders) {
+    public OperationEntity(String id, String contractId, String personCcuid, String personGender,
+                           String personFirstName, String personLastName, String personEmail, String personPhone) {
         this.id = id;
-        this.customerRef = customerRef;
-        this.payment = payment;
-        this.contract = contract;
-        this.orders = orders;
+        this.contractId = contractId;
+        this.personCcuid = personCcuid;
+        this.personGender = personGender;
+        this.personFirstName = personFirstName;
+        this.personLastName = personLastName;
+        this.personEmail = personEmail;
+        this.personPhone = personPhone;
+    }
+
+    public String personCcuid() {
+        return personCcuid;
+    }
+
+    public OperationEntity setPersonCcuid(String personCcuid) {
+        this.personCcuid = personCcuid;
+        return this;
+    }
+
+    public String personGender() {
+        return personGender;
+    }
+
+    public OperationEntity setPersonGender(String personGender) {
+        this.personGender = personGender;
+        return this;
+    }
+
+    public String personFirstName() {
+        return personFirstName;
+    }
+
+    public OperationEntity setPersonFirstName(String personFirstName) {
+        this.personFirstName = personFirstName;
+        return this;
+    }
+
+    public String personLastName() {
+        return personLastName;
+    }
+
+    public OperationEntity setPersonLastName(String personLastName) {
+        this.personLastName = personLastName;
+        return this;
+    }
+
+    public String personEmail() {
+        return personEmail;
+    }
+
+    public OperationEntity setPersonEmail(String personEmail) {
+        this.personEmail = personEmail;
+        return this;
+    }
+
+    public String personPhone() {
+        return personPhone;
+    }
+
+    public OperationEntity setPersonPhone(String personPhone) {
+        this.personPhone = personPhone;
+        return this;
+    }
+
+    public String contractId() {
+        return contractId;
+    }
+
+    public OperationEntity setContractId(String contractId) {
+        this.contractId = contractId;
+        return this;
     }
 
     public String id() {
@@ -43,42 +105,6 @@ public class OperationEntity {
 
     public OperationEntity setId(String id) {
         this.id = id;
-        return this;
-    }
-
-    public String customerRef() {
-        return customerRef;
-    }
-
-    public OperationEntity setCustomerRef(String customerRef) {
-        this.customerRef = customerRef;
-        return this;
-    }
-
-    public PaymentEntity payment() {
-        return payment;
-    }
-
-    public OperationEntity setPayment(PaymentEntity payment) {
-        this.payment = payment;
-        return this;
-    }
-
-    public ContractEntity contract() {
-        return contract;
-    }
-
-    public OperationEntity setContract(ContractEntity contract) {
-        this.contract = contract;
-        return this;
-    }
-
-    public List<OrderEntity> orders() {
-        return orders;
-    }
-
-    public OperationEntity setOrders(List<OrderEntity> orders) {
-        this.orders = orders;
         return this;
     }
 }

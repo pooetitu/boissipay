@@ -11,7 +11,6 @@ public class InvoiceMapper {
 
     public static Invoice toKafkaInvoice(org.esgi.boissipay.billing.domain.models.Invoice invoice) {
         return new Invoice(
-            invoice.contractName(),
             invoice.contractRef(),
             invoice.contractId(),
             new ContactPerson(
@@ -29,7 +28,6 @@ public class InvoiceMapper {
 
     public static org.esgi.boissipay.billing.domain.models.Invoice toInvoice(InvoiceSent invoiceSent) {
         return new org.esgi.boissipay.billing.domain.models.Invoice(
-            invoiceSent.contractName(),
             invoiceSent.contractRef(),
             invoiceSent.contractId(),
             null,

@@ -29,13 +29,8 @@ public class SpringDataOperationRepository implements OperationRepository {
     }
 
     @Override
-    public List<Operation> getOperationsByPayment(String paymentId) {
-        return jpaOperationRepository.findByPayment_Id(paymentId).stream().map(OperationMapper::toOperation).toList();
-    }
-
-    @Override
     public List<Operation> getOperationsByContract(String contractId) {
-        return jpaOperationRepository.findByContract_Id(contractId).stream().map(OperationMapper::toOperation).toList();
+        return jpaOperationRepository.findByContractId(contractId).stream().map(OperationMapper::toOperation).toList();
     }
 
     @Override

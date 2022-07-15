@@ -1,14 +1,16 @@
 package org.esgi.boissipay.billing.infra;
 
 
-import org.esgi.boissipay.billing.domain.CreateContractHandler;
-import org.esgi.boissipay.billing.domain.EventDispatcher;
-import org.esgi.boissipay.billing.domain.InvoiceSentHandler;
-import org.esgi.boissipay.billing.domain.PaymentSuccessHandler;
-import org.esgi.boissipay.billing.domain.ProcessPaymentHandler;
-import org.esgi.boissipay.billing.domain.SendInvoiceHandler;
+import org.esgi.boissipay.billing.domain.event.CreateContractHandler;
+import org.esgi.boissipay.billing.domain.event.EventDispatcher;
+import org.esgi.boissipay.billing.domain.event.InvoiceSentHandler;
+import org.esgi.boissipay.billing.domain.event.NewOperationHandler;
+import org.esgi.boissipay.billing.domain.event.PaymentSuccessHandler;
+import org.esgi.boissipay.billing.domain.event.ProcessPaymentHandler;
+import org.esgi.boissipay.billing.domain.event.SendInvoiceHandler;
 import org.esgi.boissipay.billing.domain.models.Contract;
 import org.esgi.boissipay.billing.domain.models.Invoice;
+import org.esgi.boissipay.billing.domain.models.Operation;
 import org.esgi.boissipay.billing.domain.models.Payment;
 
 import java.util.Set;
@@ -21,21 +23,24 @@ public final class DefaultEventDispatcher implements EventDispatcher {
     private final Set<ProcessPaymentHandler> processPaymentHandlers;
     private final Set<SendInvoiceHandler> sendInvoiceHandlers;
 
+    private final Set<NewOperationHandler> newOperationHandlers;
+
     public DefaultEventDispatcher(Set<CreateContractHandler> createContractHandlers,
                                   Set<InvoiceSentHandler> invoiceSentHandlers,
                                   Set<PaymentSuccessHandler> paymentSuccessHandlers,
                                   Set<ProcessPaymentHandler> processPaymentHandlers,
-                                  Set<SendInvoiceHandler> sendInvoiceHandlers) {
+                                  Set<SendInvoiceHandler> sendInvoiceHandlers, Set<NewOperationHandler> newOperationHandlers) {
         this.createContractHandlers = createContractHandlers;
         this.invoiceSentHandlers = invoiceSentHandlers;
         this.paymentSuccessHandlers = paymentSuccessHandlers;
         this.processPaymentHandlers = processPaymentHandlers;
         this.sendInvoiceHandlers = sendInvoiceHandlers;
+        this.newOperationHandlers = newOperationHandlers;
     }
 
 
     @Override
-    public void dispatchCreateContact(Contract contract) {
+    public void dispatchCreateContract(Contract contract) {
         createContractHandlers.forEach(handler -> handler.onCreateContract(contract));
     }
 
@@ -57,5 +62,10 @@ public final class DefaultEventDispatcher implements EventDispatcher {
     @Override
     public void dispatchInvoiceSent(Invoice invoice) {
         invoiceSentHandlers.forEach(handler -> handler.onInvoiceSent(invoice));
+    }
+
+    @Override
+    public void dispatchNewOperation(Operation operation) {
+        newOperationHandlers.forEach(handler -> handler.onNewOperation(operation));
     }
 }

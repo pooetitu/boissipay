@@ -25,13 +25,10 @@ public class ContractEntity {
 
     private String status;
 
-    @OneToMany(mappedBy = "contract")
-    private List<PaymentEntity> payments;
-
     public ContractEntity() {
     }
 
-    public ContractEntity(String id, String ref, String type, LocalDate createdAt, LocalDate activatedAt, LocalDate expireAt, String status, List<PaymentEntity> payments) {
+    public ContractEntity(String id, String ref, String type, LocalDate createdAt, LocalDate activatedAt, LocalDate expireAt, String status) {
         this.id = id;
         this.ref = ref;
         this.type = type;
@@ -39,16 +36,6 @@ public class ContractEntity {
         this.activatedAt = activatedAt;
         this.expireAt = expireAt;
         this.status = status;
-        this.payments = payments;
-    }
-
-    public List<PaymentEntity> payments() {
-        return payments;
-    }
-
-    public ContractEntity setPayments(List<PaymentEntity> payments) {
-        this.payments = payments;
-        return this;
     }
 
     public String id() {

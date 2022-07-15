@@ -35,22 +35,22 @@ public class SpringDataPaymentRepository implements PaymentRepository {
 
     @Override
     public List<Payment> getContractPayments(String contractId) {
-        return jpaPaymentRepository.findByContract_Id(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
     }
 
     @Override
     public List<Payment> getContractUnpaidPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNullAndContract_Id(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNullAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
     }
 
     @Override
     public List<Payment> getPayedNotBilledPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNotNullAndBilledFalseAndContract_Id(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNotNullAndBilledFalseAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
     }
 
     @Override
     public List<Payment> getGetPayedAndBilledPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNotNullAndBilledTrueAndContract_Id(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNotNullAndBilledTrueAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
     }
 
     @Override

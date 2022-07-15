@@ -23,7 +23,7 @@ public class OrderMapper {
     public static Order toOrder(OrderEntity orderEntity) {
         return new Order(
             orderEntity.orderRef(),
-            orderEntity.operation().id(),
+            orderEntity.operationId(),
             orderEntity.orderType(),
             orderEntity.productRef(),
             orderEntity.productLabel(),
