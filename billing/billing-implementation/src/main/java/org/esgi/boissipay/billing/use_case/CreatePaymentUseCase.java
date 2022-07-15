@@ -24,14 +24,14 @@ public final class CreatePaymentUseCase {
         this.eventDispatcher = eventDispatcher;
     }
 
-    public void createBilling(String message) {
+    public void createPayment(String message) {
         var billing = buildBillingFromMessage(message);
-        var createBillingRequest = new CreatePaymentRequest(billing.instant(), billing.contractName());
-        eventDispatcher.dispatchCreateBilling(createBillingRequest);
+        var createPaymentRequest = new CreatePaymentRequest(billing.instant(), billing.contractName());
+        eventDispatcher.dispatchCreatePayment(createPaymentRequest);
     }
 
     private Payment buildBillingFromMessage(String message) {
-        NewContract newContract = null;
+        NewContract newContract;
         try {
             newContract = mapper.readValue(message, NewContract.class);
         } catch(IOException ex) {

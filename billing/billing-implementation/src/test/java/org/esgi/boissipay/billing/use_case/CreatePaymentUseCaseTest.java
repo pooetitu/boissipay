@@ -15,7 +15,7 @@ public class CreatePaymentUseCaseTest {
 
     private final InMemoryPaymentRepository repo = InMemoryPaymentRepository.newEmptyInMemoryBillingRepository();
     private final static ObjectMapper mapper = new ObjectMapper();
-    private final CreatePaymentUseCase createPaymentUseCase = new CreatePaymentUseCase(repo, mapper, new EventDispatcher(Collections.emptySet()));
+    private final CreatePaymentUseCase createPaymentUseCase = new CreatePaymentUseCase(repo, mapper, new EventDispatcher(Collections.emptySet(), Collections.emptySet()));
 
     @BeforeAll
     static void beforeAll() {
@@ -25,7 +25,7 @@ public class CreatePaymentUseCaseTest {
     @Test
     void test_create_billing() {
         var kafkaInput = "{\"name\": \"test\"}";
-        createPaymentUseCase.createBilling(kafkaInput);
+        createPaymentUseCase.createPayment(kafkaInput);
         assertEquals(repo.count(), 1);
     }
 }
