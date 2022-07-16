@@ -28,11 +28,11 @@ services:
   contract_db:
     image: bitnami/postgresql:14
     environment:
-      POSTGRESQL_USERNAME: contract
-      POSTGRESQL_PASSWORD: contract
-      POSTGRESQL_DATABASE: contract
-#    ports:
-#      - "5432:5432"
+      POSTGRESQL_USERNAME: ${CONTRACT_DB_USERNAME}
+      POSTGRESQL_PASSWORD: ${CONTRACT_DB_PASSWORD}
+      POSTGRESQL_DATABASE: ${CONTRACT_DB_NAME}
+    #    ports:
+    #      - "5432:5432"
     volumes:
       - contract_db_data:/bitnami/postgresql
     restart: unless-stopped
@@ -56,9 +56,9 @@ services:
     environment:
       KAFKA_HOST: kafka
       KAFKA_PORT: 9092
-      KAFKA_GROUP_ID: boissipay
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}
       KAFKA_AUTO_OFFSET_RESET: earliest
-      KAFKA_TOPIC_CREATE_CONTRACT: create-contract
+      KAFKA_TOPIC_CREATE_CONTRACT: ${KAFKA_TOPIC_CREATE_CONTRACT}
       DATASOURCE_CONNECTION_TIMEOUT: 20000
       DATASOURCE_MAXIMUM_POOL_SIZE: 5
       H2_CONSOLE_ENABLED: true
@@ -66,9 +66,9 @@ services:
       JPA_GENERATE_DDL: true
       DATABASE_HOST: contract_db
       DATABASE_PORT: 5432
-      DATABASE_NAME: contract
-      DATABASE_USER: contract
-      DATABASE_PASSWORD: contract
+      DATABASE_NAME: ${CONTRACT_DB_NAME}
+      DATABASE_USER: ${CONTRACT_DB_USERNAME}
+      DATABASE_PASSWORD: ${CONTRACT_DB_PASSWORD}
       JPA_HIBERNATE_DDL_AUTO: update
     restart: unless-stopped
     networks:
@@ -79,9 +79,9 @@ services:
   billing_db:
     image: bitnami/postgresql:14
     environment:
-      POSTGRESQL_USERNAME: billing
-      POSTGRESQL_PASSWORD: billing
-      POSTGRESQL_DATABASE: billing
+      POSTGRESQL_USERNAME: ${BILLING_DB_USERNAME}
+      POSTGRESQL_PASSWORD: ${BILLING_DB_PASSWORD}
+      POSTGRESQL_DATABASE: ${BILLING_DB_NAME}
     volumes:
       - billing_db_data:/bitnami/postgresql
     restart: unless-stopped
@@ -107,9 +107,11 @@ services:
       KAFKA_PORT: 9092
       KAFKA_GROUP_ID: boissipay
       KAFKA_AUTO_OFFSET_RESET: earliest
-      KAFKA_TOPIC_CREATE_CONTRACT: create-contract
-      KAFKA_TOPIC_CREATE_PAYMENT: create-payment
-      KAFKA_TOPIC_CREATE_BILLING: create-billing
+      KAFKA_TOPIC_CREATE_CONTRACT: ${KAFKA_TOPIC_CREATE_CONTRACT}
+      KAFKA_TOPIC_PROCESS_PAYMENT: ${KAFKA_TOPIC_PROCESS_PAYMENT}
+      KAFKA_TOPIC_PAYMENT_SUCCESS: ${KAFKA_TOPIC_PAYMENT_SUCCESS}
+      KAFKA_TOPIC_SEND_INVOICE: ${KAFKA_TOPIC_SEND_INVOICE}
+      KAFKA_TOPIC_INVOICE_SENT: ${KAFKA_TOPIC_INVOICE_SENT}
       DATASOURCE_CONNECTION_TIMEOUT: 20000
       DATASOURCE_MAXIMUM_POOL_SIZE: 5
       H2_CONSOLE_ENABLED: true
@@ -117,9 +119,9 @@ services:
       JPA_GENERATE_DDL: true
       DATABASE_HOST: billing_db
       DATABASE_PORT: 5432
-      DATABASE_NAME: billing
-      DATABASE_USER: billing
-      DATABASE_PASSWORD: billing
+      DATABASE_NAME: ${BILLING_DB_NAME}
+      DATABASE_USER: ${BILLING_DB_USERNAME}
+      DATABASE_PASSWORD: ${BILLING_DB_PASSWORD}
       JPA_HIBERNATE_DDL_AUTO: update
 
     restart: unless-stopped

@@ -131,8 +131,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    NewOperationEventHandler newOperationEventHandler(NewOperationUseCase newOperationUseCase) {
-        return new NewOperationEventHandler(newOperationUseCase);
+    NewOperationEventHandler newOperationEventHandler(NewPaymentUseCase newPaymentUseCase) {
+        return new NewOperationEventHandler(newPaymentUseCase);
     }
 
     @Bean
@@ -195,21 +195,7 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public EventDispatcher eventDispatcher(
-        Set<CreateContractHandler> createContractHandlers,
-        Set<InvoiceSentHandler> invoiceSentHandlers,
-        Set<PaymentSuccessHandler> paymentSuccessHandlers,
-        Set<ProcessPaymentHandler> processPaymentHandlers,
-        Set<SendInvoiceHandler> sendInvoiceHandlers,
-        Set<NewOperationHandler> newOperationHandlers
-    ) {
-        return new DefaultEventDispatcher(
-            createContractHandlers,
-            invoiceSentHandlers,
-            paymentSuccessHandlers,
-            processPaymentHandlers,
-            sendInvoiceHandlers,
-            newOperationHandlers
-        );
+    public EventDispatcher eventDispatcher() {
+        return new DefaultEventDispatcher();
     }
 }

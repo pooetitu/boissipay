@@ -13,32 +13,58 @@ import org.esgi.boissipay.billing.domain.models.Invoice;
 import org.esgi.boissipay.billing.domain.models.Operation;
 import org.esgi.boissipay.billing.domain.models.Payment;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public final class DefaultEventDispatcher implements EventDispatcher {
 
-    private final Set<CreateContractHandler> createContractHandlers;
-    private final Set<InvoiceSentHandler> invoiceSentHandlers;
-    private final Set<PaymentSuccessHandler> paymentSuccessHandlers;
-    private final Set<ProcessPaymentHandler> processPaymentHandlers;
-    private final Set<SendInvoiceHandler> sendInvoiceHandlers;
+    private Set<CreateContractHandler> createContractHandlers;
+    private Set<InvoiceSentHandler> invoiceSentHandlers;
+    private Set<PaymentSuccessHandler> paymentSuccessHandlers;
+    private Set<ProcessPaymentHandler> processPaymentHandlers;
+    private Set<SendInvoiceHandler> sendInvoiceHandlers;
 
-    private final Set<NewOperationHandler> newOperationHandlers;
+    private Set<NewOperationHandler> newOperationHandlers;
 
-    public DefaultEventDispatcher(Set<CreateContractHandler> createContractHandlers,
-                                  Set<InvoiceSentHandler> invoiceSentHandlers,
-                                  Set<PaymentSuccessHandler> paymentSuccessHandlers,
-                                  Set<ProcessPaymentHandler> processPaymentHandlers,
-                                  Set<SendInvoiceHandler> sendInvoiceHandlers,
-                                  Set<NewOperationHandler> newOperationHandlers) {
-        this.createContractHandlers = createContractHandlers;
-        this.invoiceSentHandlers = invoiceSentHandlers;
-        this.paymentSuccessHandlers = paymentSuccessHandlers;
-        this.processPaymentHandlers = processPaymentHandlers;
-        this.sendInvoiceHandlers = sendInvoiceHandlers;
-        this.newOperationHandlers = newOperationHandlers;
+    public DefaultEventDispatcher() {
+        createContractHandlers = new HashSet<>();
+        invoiceSentHandlers = new HashSet<>();
+        paymentSuccessHandlers = new HashSet<>();
+        processPaymentHandlers = new HashSet<>();
+        sendInvoiceHandlers = new HashSet<>();
+        newOperationHandlers = new HashSet<>();
     }
 
+    public DefaultEventDispatcher setCreateContractHandlers(Set<CreateContractHandler> createContractHandlers) {
+        this.createContractHandlers = Objects.requireNonNull(createContractHandlers);
+        return this;
+    }
+
+    public DefaultEventDispatcher setInvoiceSentHandlers(Set<InvoiceSentHandler> invoiceSentHandlers) {
+        this.invoiceSentHandlers = Objects.requireNonNull(invoiceSentHandlers);
+        return this;
+    }
+
+    public DefaultEventDispatcher setPaymentSuccessHandlers(Set<PaymentSuccessHandler> paymentSuccessHandlers) {
+        this.paymentSuccessHandlers = Objects.requireNonNull(paymentSuccessHandlers);
+        return this;
+    }
+
+    public DefaultEventDispatcher setProcessPaymentHandlers(Set<ProcessPaymentHandler> processPaymentHandlers) {
+        this.processPaymentHandlers = Objects.requireNonNull(processPaymentHandlers);
+        return this;
+    }
+
+    public DefaultEventDispatcher setSendInvoiceHandlers(Set<SendInvoiceHandler> sendInvoiceHandlers) {
+        this.sendInvoiceHandlers = Objects.requireNonNull(sendInvoiceHandlers);
+        return this;
+    }
+
+    public DefaultEventDispatcher setNewOperationHandlers(Set<NewOperationHandler> newOperationHandlers) {
+        this.newOperationHandlers = Objects.requireNonNull(newOperationHandlers);
+        return this;
+    }
 
     @Override
     public void dispatchCreateContract(Contract contract) {
