@@ -20,7 +20,7 @@ public final class NewOperationUseCase {
         this.eventDispatcher = eventDispatcher;
     }
 
-    public void newOperation(Operation newOperation) {
+    public String newOperation(Operation newOperation) {
         if (newOperation.id() == null) {
             newOperation.setId(UUID.randomUUID().toString());
         }
@@ -29,5 +29,6 @@ public final class NewOperationUseCase {
             newOrder -> newOrderUseCase.newOrder(newOrder.setOperationId(newOperation.id()))
         );
         eventDispatcher.dispatchNewOperation(newOperation);
+        return newOperation.id();
     }
 }

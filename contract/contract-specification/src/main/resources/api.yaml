@@ -158,21 +158,6 @@ paths:
                 ContractsResponse:
                   $ref: '#/components/examples/ErrorResponse'
 components:
-  securitySchemes:
-    ApiKey:
-      type: apiKey
-      name: X-OKAPI-KEY
-      in: header
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://moncompte.esgi.fr/oauth/authorize
-          tokenUrl: https://moncompte/esgi.fr/oauth/token
-          scopes:
-            read: Grants read access
-            write: Grants write access
-            admin: Grants access to admin operations
   parameters:
     PathContractRef:
       name: contractRef

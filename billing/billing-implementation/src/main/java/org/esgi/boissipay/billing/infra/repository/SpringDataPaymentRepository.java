@@ -1,6 +1,7 @@
 package org.esgi.boissipay.billing.infra.repository;
 
 import org.esgi.boissipay.billing.domain.models.Payment;
+import org.esgi.boissipay.billing.domain.repository.OperationRepository;
 import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
 import org.esgi.boissipay.billing.kernel.PaymentMapper;
 
@@ -9,8 +10,11 @@ import java.util.List;
 public class SpringDataPaymentRepository implements PaymentRepository {
     private final JPAPaymentRepository jpaPaymentRepository;
 
-    public SpringDataPaymentRepository(JPAPaymentRepository jpaPaymentRepository) {
+    private final OperationRepository operationRepository;
+
+    public SpringDataPaymentRepository(JPAPaymentRepository jpaPaymentRepository, OperationRepository operationRepository) {
         this.jpaPaymentRepository = jpaPaymentRepository;
+        this.operationRepository = operationRepository;
     }
 
     @Override
@@ -20,42 +24,58 @@ public class SpringDataPaymentRepository implements PaymentRepository {
 
     @Override
     public Payment getPayment(String paymentId) {
-        return jpaPaymentRepository.findById(paymentId).map(PaymentMapper::toPayment).orElse(null);
+        return jpaPaymentRepository.findById(paymentId)
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .orElse(null);
     }
 
     @Override
     public List<Payment> getPayments() {
-        return jpaPaymentRepository.findAll().stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findAll().stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getUnpaidPayments() {
-        return jpaPaymentRepository.findByPayedAtNull().stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNull().stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getByInvoiceRef(String invoiceRef) {
-        return jpaPaymentRepository.findByInvoiceRef(invoiceRef).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByInvoiceRef(invoiceRef).stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getContractPayments(String contractId) {
-        return jpaPaymentRepository.findByContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByContractId(contractId).stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getContractUnpaidPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNullAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNullAndContractId(contractId).stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getPayedNotBilledPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNotNullAndBilledFalseAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNotNullAndBilledFalseAndContractId(contractId).stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override
     public List<Payment> getGetPayedAndBilledPayments(String contractId) {
-        return jpaPaymentRepository.findByPayedAtNotNullAndBilledTrueAndContractId(contractId).stream().map(PaymentMapper::toPayment).toList();
+        return jpaPaymentRepository.findByPayedAtNotNullAndBilledTrueAndContractId(contractId).stream()
+            .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
+            .toList();
     }
 
     @Override

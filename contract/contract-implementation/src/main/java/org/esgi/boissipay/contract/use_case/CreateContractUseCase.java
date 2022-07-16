@@ -1,9 +1,9 @@
 package org.esgi.boissipay.contract.use_case;
 
-import org.esgi.boissipay.contract.kernel.ContractMapper;
 import org.esgi.boissipay.contract.domain.Contract;
 import org.esgi.boissipay.contract.domain.ContractRepository;
 import org.esgi.boissipay.contract.domain.EventDispatcher;
+import org.esgi.boissipay.contract.kernel.ContractMapper;
 import org.esgi.boissipay.contract.model.ContractRequest;
 
 import java.util.UUID;
@@ -20,8 +20,8 @@ public class CreateContractUseCase {
 
     public void createContract(ContractRequest contractRequest) {
         Contract contract = ContractMapper.toContract(contractRequest)
-                .setContractId(UUID.randomUUID().toString())
-                .setContractRef(UUID.randomUUID().toString());
+            .setContractId(UUID.randomUUID().toString())
+            .setContractRef(UUID.randomUUID().toString());
 
         contractRepository.save(contract);
         eventDispatcher.dispatchCreateContract(contract);

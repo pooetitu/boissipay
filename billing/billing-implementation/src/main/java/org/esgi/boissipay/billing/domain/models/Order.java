@@ -6,12 +6,12 @@ public class Order {
     private String orderType;
     private String productRef;
     private String productLabel;
-    private String quantity;
+    private int quantity;
     private double priceWithoutTax;
     private double priceTax;
     private double priceWithTax;
 
-    public Order(String orderRef, String operationId, String orderType, String productRef, String productLabel, String quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
+    public Order(String orderRef, String operationId, String orderType, String productRef, String productLabel, int quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
         this.orderRef = orderRef;
         this.operationId = operationId;
         this.orderType = orderType;
@@ -71,11 +71,11 @@ public class Order {
         return this;
     }
 
-    public String quantity() {
+    public int quantity() {
         return quantity;
     }
 
-    public Order setQuantity(String quantity) {
+    public Order setQuantity(int quantity) {
         this.quantity = quantity;
         return this;
     }

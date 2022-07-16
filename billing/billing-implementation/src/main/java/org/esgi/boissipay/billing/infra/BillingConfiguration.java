@@ -24,10 +24,14 @@ import org.esgi.boissipay.billing.infra.repository.SpringDataPaymentRepository;
 import org.esgi.boissipay.billing.kafka.ProcessPaymentProducer;
 import org.esgi.boissipay.billing.kafka.SendInvoiceProducer;
 import org.esgi.boissipay.billing.use_case.BillPaymentUseCase;
+import org.esgi.boissipay.billing.use_case.GetInvoiceByInvoiceRef;
+import org.esgi.boissipay.billing.use_case.GetOperationUseCase;
+import org.esgi.boissipay.billing.use_case.GetOperationsByInvoiceRefUseCase;
 import org.esgi.boissipay.billing.use_case.NewContractUseCase;
 import org.esgi.boissipay.billing.use_case.NewOperationUseCase;
 import org.esgi.boissipay.billing.use_case.NewOrderUseCase;
 import org.esgi.boissipay.billing.use_case.NewPaymentUseCase;
+import org.esgi.boissipay.billing.use_case.SearchInvoiceUseCase;
 import org.esgi.boissipay.billing.use_case.SetPaymentInvoiceRefUseCase;
 import org.esgi.boissipay.billing.use_case.ValidatePaymentUseCase;
 import org.esgi.boissipay.billing.use_case.handler.CreateContractEventHandler;
@@ -58,8 +62,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    OperationRepository operationRepository(JPAOperationRepository jpaOperationRepository) {
-        return new SpringDataOperationRepository(jpaOperationRepository);
+    OperationRepository operationRepository(JPAOperationRepository jpaOperationRepository, JPAOrderRepository jpaOrderRepository) {
+        return new SpringDataOperationRepository(jpaOperationRepository, jpaOrderRepository);
     }
 
     @Bean
@@ -68,8 +72,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    PaymentRepository paymentRepository(JPAPaymentRepository jpaPaymentRepository) {
-        return new SpringDataPaymentRepository(jpaPaymentRepository);
+    PaymentRepository paymentRepository(JPAPaymentRepository jpaPaymentRepository, OperationRepository operationRepository) {
+        return new SpringDataPaymentRepository(jpaPaymentRepository, operationRepository);
     }
 
     @Bean
@@ -116,6 +120,16 @@ public class BillingConfiguration {
     }
 
     @Bean
+    GetInvoiceByInvoiceRef getInvoiceByInvoiceRef(PaymentRepository paymentRepository, ContractRepository contractRepository) {
+        return new GetInvoiceByInvoiceRef(paymentRepository, contractRepository);
+    }
+
+    @Bean
+    SearchInvoiceUseCase searchInvoiceUseCase(PaymentRepository paymentRepository, ContractRepository contractRepository) {
+        return new SearchInvoiceUseCase(paymentRepository, contractRepository);
+    }
+
+    @Bean
     CreateContractEventHandler createContractEventHandler(NewContractUseCase newContractUseCase) {
         return new CreateContractEventHandler(newContractUseCase);
     }
@@ -123,6 +137,16 @@ public class BillingConfiguration {
     @Bean
     ValidatePaymentUseCase validatePaymentUseCase(PaymentRepository paymentRepository) {
         return new ValidatePaymentUseCase(paymentRepository);
+    }
+
+    @Bean
+    GetOperationUseCase getOperationUseCase(OperationRepository operationRepository) {
+        return new GetOperationUseCase(operationRepository);
+    }
+
+    @Bean
+    GetOperationsByInvoiceRefUseCase getOperationsByInvoiceRefUseCase(PaymentRepository paymentRepository) {
+        return new GetOperationsByInvoiceRefUseCase(paymentRepository);
     }
 
     @Bean

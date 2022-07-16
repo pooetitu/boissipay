@@ -1,5 +1,6 @@
 package org.esgi.boissipay.billing.kernel;
 
+import org.esgi.boissipay.billing.domain.models.Operation;
 import org.esgi.boissipay.billing.domain.models.Order;
 import org.esgi.boissipay.billing.domain.models.Payment;
 import org.esgi.boissipay.billing.infra.entity.PaymentEntity;
@@ -20,10 +21,10 @@ public class PaymentMapper {
             .setInvoiceRef(payment.invoiceRef());
     }
 
-    public static Payment toPayment(PaymentEntity paymentEntity) {
+    public static Payment toPayment(PaymentEntity paymentEntity, Operation operation) {
         return new Payment(
             paymentEntity.id(),
-            null,
+            operation,
             paymentEntity.billed(),
             paymentEntity.createdAt(),
             paymentEntity.payedAt(),

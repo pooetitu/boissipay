@@ -12,7 +12,7 @@ public class OrderEntity {
     private String orderType;
     private String productRef;
     private String productLabel;
-    private String quantity;
+    private int quantity;
     private double priceWithoutTax;
     private double priceTax;
     private double priceWithTax;
@@ -20,7 +20,7 @@ public class OrderEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(String orderRef, String operationId, String orderType, String productRef, String productLabel, String quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
+    public OrderEntity(String orderRef, String operationId, String orderType, String productRef, String productLabel, int quantity, double priceWithoutTax, double priceTax, double priceWithTax) {
         this.orderRef = orderRef;
         this.operationId = operationId;
         this.orderType = orderType;
@@ -77,11 +77,11 @@ public class OrderEntity {
         return this;
     }
 
-    public String quantity() {
+    public int quantity() {
         return quantity;
     }
 
-    public OrderEntity setQuantity(String quantity) {
+    public OrderEntity setQuantity(int quantity) {
         this.quantity = quantity;
         return this;
     }
