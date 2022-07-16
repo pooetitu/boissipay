@@ -31,6 +31,7 @@ ENV KAFKA_HOST=localhost\
     DATABASE_USER=billing\
     DATABASE_PASSWORD=billing\
     JPA_HIBERNATE_DDL_AUTO=update\
-    WRITE_DATES_AS_TIMESTAMPS=true
+    WRITE_DATES_AS_TIMESTAMPS=true\
+    INVOICE_SCHEDULING_CRON="0 0/2 * * * *"
 
 CMD ["java", "-jar","-Dspring.profiles.active=env", "/app/boissipay-billing.jar"]
