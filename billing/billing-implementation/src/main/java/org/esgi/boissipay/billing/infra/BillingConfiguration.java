@@ -180,9 +180,10 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public Set<SendInvoiceHandler> sendInvoiceHandlers(SendInvoiceProducer sendInvoiceProducer) {
+    public Set<SendInvoiceHandler> sendInvoiceHandlers(SendInvoiceProducer sendInvoiceProducer, SendInvoiceEventHandler sendInvoiceEventHandler) {
         Set<SendInvoiceHandler> set = new HashSet<>();
         set.add(sendInvoiceProducer);
+        set.add(sendInvoiceEventHandler);
         return set;
     }
 
