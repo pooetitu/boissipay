@@ -5,6 +5,8 @@ import org.esgi.boissipay.contract.domain.CreateContractHandler;
 import org.esgi.boissipay.contract.domain.EventDispatcher;
 import org.esgi.boissipay.contract.kafka.Producer;
 import org.esgi.boissipay.contract.use_case.CreateContractUseCase;
+import org.esgi.boissipay.contract.use_case.GetActiveContractsUseCase;
+import org.esgi.boissipay.contract.use_case.GetContractByRefUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,5 +36,15 @@ public class ContractConfiguration {
     @Bean
     CreateContractUseCase createContractUseCase(EventDispatcher eventDispatcher, ContractRepository contractRepository) {
         return new CreateContractUseCase(eventDispatcher, contractRepository);
+    }
+
+    @Bean
+    GetActiveContractsUseCase getActiveContractsUseCase(ContractRepository contractRepository) {
+        return new GetActiveContractsUseCase(contractRepository);
+    }
+
+    @Bean
+    GetContractByRefUseCase getContractByRefUseCase(ContractRepository contractRepository) {
+        return new GetContractByRefUseCase(contractRepository);
     }
 }
