@@ -47,4 +47,8 @@ public final class SubscriberMapper {
                 )
         );
     }
+
+    public static BusinessSubscriber toSubscriberResponse(org.esgi.boissipay.contract.domain.Subscriber subscriber) {
+        return null;
+    }
 }

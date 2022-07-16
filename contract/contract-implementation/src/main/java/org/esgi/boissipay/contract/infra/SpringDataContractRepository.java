@@ -27,6 +27,12 @@ public class SpringDataContractRepository implements ContractRepository {
     }
 
     @Override
+    public Contract getContractByRef(String contractRef) {
+        var contractEntity = jpaContractRepository.findByRef(contractRef);
+        return contractEntity.map(ContractMapper::toContract).orElse(null);
+    }
+
+    @Override
     public List<Contract> getContracts() {
         return jpaContractRepository.findAll().stream().map(ContractMapper::toContract).toList();
     }

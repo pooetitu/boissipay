@@ -6,8 +6,11 @@ import org.esgi.boissipay.contract.domain.Customer;
 import org.esgi.boissipay.contract.domain.Subscriber;
 import org.esgi.boissipay.contract.infra.ContractEntity;
 import org.esgi.boissipay.contract.model.ContractRequest;
+import org.esgi.boissipay.contract.model.ContractResponse;
+import org.esgi.boissipay.contract.model.ContractsResponse;
 import org.esgi.boissipay.kafka.schema.NewContract;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class ContractMapper {
@@ -36,6 +39,25 @@ public final class ContractMapper {
             .setExpireAt(contractRequest.getExpireAt())
             .setStatus(contractRequest.getStatus().getValue())
             .setSubscriber(SubscriberMapper.toSubscriber(Objects.requireNonNull(contractRequest.getSubscriber())));
+    }
+
+    public static ContractResponse toContractResponse(Contract contract) {
+        var response = new ContractResponse();
+        response.setContractId(contract.contractId());
+        response.setContractRef(contract.contractRef());
+        response.setContractType(ContractResponse.ContractTypeEnum.fromValue(contract.contractType()));
+        response.setCreatedAt(contract.createdAt());
+        response.setActivatedAt(contract.activatedAt());
+        response.setExpireAt(contract.expireAt());
+        response.setStatus(ContractResponse.StatusEnum.fromValue(contract.status()));
+        response.setSubscriber(SubscriberMapper.toSubscriberResponse(contract.subscriber()));
+        return response;
+    }
+
+    public static ContractsResponse toContractsResponse(List<Contract> contracts) {
+        var response = new ContractsResponse();
+        response.setContracts(contracts.stream().map(ContractMapper::toContractResponse).toList());
+        return response;
     }
 
     public static Contract toContract(ContractEntity contractEntity) {
@@ -88,6 +110,5 @@ public final class ContractMapper {
             contract.subscriber().contactPerson().email(),
             contract.subscriber().contactPerson().phone()
         );
-
     }
 }

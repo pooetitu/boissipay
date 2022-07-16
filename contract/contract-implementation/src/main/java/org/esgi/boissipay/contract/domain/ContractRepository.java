@@ -7,6 +7,8 @@ public interface ContractRepository {
 
     Contract getContract(String contractId);
 
+    Contract getContractByRef(String contractRef);
+
     List<Contract> getContracts();
 
     List<Contract> getActiveContracts();
