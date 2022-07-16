@@ -1,9 +1,7 @@
 FROM maven:3.8.5-eclipse-temurin-17-alpine as build
 WORKDIR /app
 COPY pom.xml .
-COPY ./billing/ ./billing/
-COPY ./contract/ ./contract/
-COPY ./kafka/ ./kafka/
+COPY . .
 
 RUN mvn clean install -DskipTests
 
@@ -17,6 +15,23 @@ ENV KAFKA_HOST=localhost\
     KAFKA_PORT=9092\
     KAFKA_GROUP_ID=boissipay\
     KAFKA_AUTO_OFFSET_RESET=earliest\
-    KAFKA_TOPIC_CREATE_CONTRACT=create-contract
+    KAFKA_TOPIC_CREATE_CONTRACT=create-contract\
+    KAFKA_TOPIC_PROCESS_PAYMENT=process-payment\
+    KAFKA_TOPIC_PAYMENT_SUCCESS=payment-success\
+    KAFKA_TOPIC_SEND_INVOICE=send-invoice\
+    KAFKA_TOPIC_INVOICE_SENT=invoice-sent\
+    DATASOURCE_CONNECTION_TIMEOUT=20000\
+    DATASOURCE_MAXIMUM_POOL_SIZE=5\
+    H2_CONSOLE_ENABLED=true\
+    JPA_OPEN_IN_VIEW=false\
+    JPA_GENERATE_DDL=true\
+    DATABASE_HOST=localhost\
+    DATABASE_PORT=5432\
+    DATABASE_NAME=billing\
+    DATABASE_USER=billing\
+    DATABASE_PASSWORD=billing\
+    JPA_HIBERNATE_DDL_AUTO=update\
+    WRITE_DATES_AS_TIMESTAMPS=true\
+    INVOICE_SCHEDULING_CRON="0 0/2 * * * *"
 
 CMD ["java", "-jar","-Dspring.profiles.active=env", "/app/boissipay-billing.jar"]

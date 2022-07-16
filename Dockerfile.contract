@@ -1,9 +1,7 @@
 FROM maven:3.8.5-eclipse-temurin-17-alpine as build
 WORKDIR /app
 COPY pom.xml .
-COPY ./billing/ ./billing/
-COPY ./contract/ ./contract/
-COPY ./kafka/ ./kafka/
+COPY . .
 
 RUN mvn clean install -DskipTests
 
@@ -17,6 +15,17 @@ ENV KAFKA_HOST=localhost\
     KAFKA_PORT=9092\
     KAFKA_GROUP_ID=boissipay\
     KAFKA_AUTO_OFFSET_RESET=earliest\
-    KAFKA_TOPIC_CREATE_CONTRACT=create-contract
+    KAFKA_TOPIC_CREATE_CONTRACT=create-contract\
+    DATASOURCE_CONNECTION_TIMEOUT=20000\
+    DATASOURCE_MAXIMUM_POOL_SIZE=5\
+    H2_CONSOLE_ENABLED=true\
+    JPA_OPEN_IN_VIEW=false\
+    JPA_GENERATE_DDL=true\
+    DATABASE_HOST=localhost\
+    DATABASE_PORT=5432\
+    DATABASE_NAME=contract\
+    DATABASE_USER=contract\
+    DATABASE_PASSWORD=contract\
+    JPA_HIBERNATE_DDL_AUTO=update
 
 CMD ["java", "-jar","-Dspring.profiles.active=env", "/app/boissipay-contract.jar"]

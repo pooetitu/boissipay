@@ -8,22 +8,12 @@ servers:
 paths:
   /contracts:
     get:
-      operationId: searchContracts
+      operationId: getContracts
       tags:
         - Search/Read
-      summary: Search Contracts
+      summary: Get Contracts
       description: >-
-        Multi-criteria search for contracts. The result is a list (maybe
-        empty) of contracts
-      security:
-        - OAuth2:
-            - read
-        - ApiKey: []
-      parameters:
-        - $ref: '#/components/parameters/QuerySubscriberRef'
-        - $ref: '#/components/parameters/QueryContractStatus'
-        - $ref: '#/components/parameters/QueryPageLimit'
-        - $ref: '#/components/parameters/QueryPageOffset'
+        Return all active contracts
       responses:
         '200':
           description: SUCCESS - Returns a list of Contracts
@@ -67,10 +57,6 @@ paths:
         - Create/Lifecycle
       summary: Add a Contract
       description: Add a new Contract
-      security:
-        - OAuth2:
-            - write
-        - ApiKey: []
       requestBody:
         content:
           application/json:
@@ -132,10 +118,6 @@ paths:
         - Search/Read
       summary: Read a Contract
       description: Get an existing Contract
-      security:
-        - OAuth2:
-            - write
-        - ApiKey: []
       parameters:
         - $ref: '#/components/parameters/PathContractRef'
       responses:
@@ -175,82 +157,7 @@ paths:
               examples:
                 ContractsResponse:
                   $ref: '#/components/examples/ErrorResponse'
-    patch:
-      operationId: patchContract
-      tags:
-        - Create/Lifecycle
-      summary: Patch a Contract
-      description: Update an existing Contract
-      security:
-        - OAuth2:
-            - write
-        - ApiKey: []
-      parameters:
-        - $ref: '#/components/parameters/PathContractRef'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ContractActionRequest'
-            examples:
-              ContractRequest:
-                $ref: '#/components/examples/ContractActionRequest'
-      responses:
-        '204':
-          description: NO_CONTENT
-        '400':
-          description: ERROR - Invalid object request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                ContractsResponse:
-                  $ref: '#/components/examples/ErrorResponse'
-        '401':
-          description: ERROR - Not authenticated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                ContractsResponse:
-                  $ref: '#/components/examples/ErrorResponse'
-        '403':
-          description: ERROR - Access token does not have the required scope
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                ContractsResponse:
-                  $ref: '#/components/examples/ErrorResponse'
-        '500':
-          description: ERROR - Internal Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                ContractsResponse:
-                  $ref: '#/components/examples/ErrorResponse'
-
 components:
-  securitySchemes:
-    ApiKey:
-      type: apiKey
-      name: X-OKAPI-KEY
-      in: header
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://moncompte.esgi.fr/oauth/authorize
-          tokenUrl: https://moncompte/esgi.fr/oauth/token
-          scopes:
-            read: Grants read access
-            write: Grants write access
-            admin: Grants access to admin operations
   parameters:
     PathContractRef:
       name: contractRef
@@ -260,56 +167,6 @@ components:
       example: CTR-671675563
       schema:
         type: string
-    PathCustomerRef:
-      name: customerRef
-      in: path
-      description: External reference of the subscriber
-      required: true
-      example: CUSTOMER NUMBER
-      schema:
-        type: string
-    QueryContractStatus:
-      name: contractStatus
-      in: query
-      description: Contract Status
-      example: ACTIVE
-      schema:
-        type: string
-    QueryContractRef:
-      name: contractRef
-      in: query
-      description: External identifier of the deferred billing contract for the customer
-      example: CTR-671675563
-      schema:
-        type: string
-    QuerySubscriberRef:
-      name: subscriberRef
-      in: query
-      description: External identifier of the subscriber
-      example: CUSTOMER NUMBER
-      schema:
-        type: string
-    QueryContactRef:
-      name: contactRef
-      in: query
-      description: IDExternal identifier of the Customer's contact
-      example: CTR-671675563
-      schema:
-        type: string
-    QueryPageLimit:
-      name: limit
-      in: query
-      description: Limits the number of items on a page
-      example: 10
-      schema:
-        type: integer
-    QueryPageOffset:
-      name: offset
-      in: query
-      description: Specifies the page number of the list to be displayed
-      example: 1
-      schema:
-        type: integer
   schemas:
     ErrorType:
       type: object
@@ -422,27 +279,6 @@ components:
           type: string
           format: phone
           example: +33 (0)1 56 87 65 78
-
-
-    WireTransfertResource:
-      description: SEPA Informations
-      type: object
-      properties:
-        rum:
-          description: Référence Unique de Mandat
-          type: string
-          example: RUM08918098739762ABCGDF65524255658
-
-    DeferredBilling:
-      description: Describe billing contract
-      type: object
-      properties:
-        creditLimit:
-          type: integer
-          example: 3000
-        payment:
-          $ref: '#/components/schemas/BusinessPayment'
-
     BusinessDistributor:
       description: Describes distributor organisation & contact
       type: object
@@ -484,33 +320,6 @@ components:
               description: External identifier of organisation (i.e. CUSTOMER)
               type: string
               example: CUSTOMER NUMBER
-    BusinessParticularParty:
-      description: Describes particular physical person
-      type: object
-      properties:
-        particular:
-          type: object
-          properties:
-            customerId:
-              description: Internal Identifier of person
-              type: string
-              example: PRO-8996786873
-            customerRef:
-              description: External identifier of organisation (i.e. firstName + lastName)
-              type: string
-              example: John DOE
-
-    ContractActionRequest:
-      description: Describe contract action
-      type: object
-      properties:
-        action:
-          type: string
-          example: activation
-        contractRef:
-          type: string
-
-
     BusinessSubscriber:
       description: Describes subscriber organisation & contact
       type: object
@@ -563,20 +372,6 @@ components:
           $ref: '#/components/schemas/BusinessAddress'
         billingAddress:
           $ref: '#/components/schemas/BusinessAddress'
-    BusinessPayment:
-      description: Describes the payment method used
-      type: object
-      required:
-        - paymentMethodType
-      properties:
-        paymentMethodType:
-          description: Payment method type (Only WIRETRANSFER for differed billing phase 1)
-          type: string
-          enum:
-            - WIRETRANSFER
-          example: WIRETRANSFER
-        wireTansfert:
-          $ref: '#/components/schemas/WireTransfertResource'
     ContractRequest:
       description: Describes contract
       type: object
@@ -636,9 +431,6 @@ components:
           $ref: '#/components/schemas/BusinessDistributor'
         subscriber:
           $ref: '#/components/schemas/BusinessSubscriber'
-        custom:
-          $ref: '#/components/schemas/DeferredBilling'
-
       example:
         ContractResponse:
           $ref: '#/components/examples/ContractResponse'
@@ -651,7 +443,7 @@ components:
           properties:
             contractId:
               description: Internal identifier of the contract
-              type: integer
+              type: string
               example: 58761542
             contractRef:
               description: External identifier of the contract
@@ -698,18 +490,6 @@ components:
             errorCode: PD-123
             status: 400|401|403|500
             message: Error message
-    QueryMetadataResponse:
-      value:
-        query: /contracts?customerRef=CUSTOMER&status=ACTIVE
-        countItems: 1
-        totalItems: 1
-        totalPages: 1
-
-    ContractActionRequest:
-      value:
-        action: activation
-        contractRef: CTR-JHKJQGFSHFHGS
-
 
     ContractRequest:
       value:
@@ -734,13 +514,6 @@ components:
             lastName: DOE
             mail: john.doe@acme.com
             phone: +33 (0)7 76 77 00 00
-        custom:
-          deferredBilling:
-            creditLimit: 3000
-            payment:
-              paymentMethodType: WIRETRANSFER
-              wireTansfert:
-                rum : RUM08918098739762ABCGDF65524255658
     ContractResponse:
       value:
         contractId: '786876725453'
@@ -767,13 +540,6 @@ components:
             lastName: DOE
             mail: john.doe@acme.com
             phone: +33 (0)7 76 77 00 00
-        custom:
-          deferredBilling:
-            creditLimit: 3000
-            payment:
-              paymentMethodType: WIRETRANSFER
-              wireTansfert:
-                rum : RUM08918098739762ABCGDF65524255658
     ContractsResponse:
       value:
         contracts:
@@ -797,14 +563,6 @@ components:
                 lastName: DOE
                 mail: john.doe@acme.com
                 phone: +33 (0)7 76 77 00 00
-            custom:
-              deferredBilling:
-                creditLimit: 3000
-                payment:
-                  paymentMethodType: WIRETRANSFER
-                  wireTansfert:
-                    rum : RUM08918098739762ABCGDF65524255658
-
         metadata:
           query: /contracts?customerRef=CUSTOMER&status=ACTIVE
           countItems: 1

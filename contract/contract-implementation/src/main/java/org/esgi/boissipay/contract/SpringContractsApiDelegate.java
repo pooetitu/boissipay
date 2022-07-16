@@ -1,42 +1,51 @@
 package org.esgi.boissipay.contract;
 
-
 import org.esgi.boissipay.contract.api.ContractsApiDelegate;
-import org.esgi.boissipay.contract.kafka.Producer;
-import org.esgi.boissipay.contract.model.ContractActionRequest;
+import org.esgi.boissipay.contract.kernel.ContractMapper;
 import org.esgi.boissipay.contract.model.ContractRequest;
 import org.esgi.boissipay.contract.model.ContractResponse;
 import org.esgi.boissipay.contract.model.ContractsResponse;
+import org.esgi.boissipay.contract.use_case.CreateContractUseCase;
+import org.esgi.boissipay.contract.use_case.GetActiveContractsUseCase;
+import org.esgi.boissipay.contract.use_case.GetContractByRefUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SpringContractsApiDelegate implements ContractsApiDelegate {
 
-    private final Producer producer;
+    private final CreateContractUseCase createContractUseCase;
+    private final GetActiveContractsUseCase getActiveContractsUseCase;
 
-    public SpringContractsApiDelegate(Producer producer) {
-        this.producer = producer;
+    private final GetContractByRefUseCase getContractByRefUseCase;
+
+    public SpringContractsApiDelegate(CreateContractUseCase createContractUseCase, GetActiveContractsUseCase getActiveContractsUseCase, GetContractByRefUseCase getContractByRefUseCase) {
+        this.createContractUseCase = createContractUseCase;
+        this.getActiveContractsUseCase = getActiveContractsUseCase;
+        this.getContractByRefUseCase = getContractByRefUseCase;
     }
+
 
     @Override
     public ResponseEntity<ContractResponse> getContract(String contractRef) {
-        return ContractsApiDelegate.super.getContract(contractRef);
-    }
-
-    @Override
-    public ResponseEntity<Void> patchContract(String contractRef, ContractActionRequest contractActionRequest) {
-        return ContractsApiDelegate.super.patchContract(contractRef, contractActionRequest);
+        var contract = getContractByRefUseCase.getContract(contractRef);
+        if (contract == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ContractMapper.toContractResponse(contract));
     }
 
     @Override
     public ResponseEntity<ContractResponse> postContract(ContractRequest contractRequest) {
-        producer.sendContractCreateEvent(contractRequest);
+        createContractUseCase.createContract(contractRequest);
         return ResponseEntity.ok(new ContractResponse());
     }
 
     @Override
-    public ResponseEntity<ContractsResponse> searchContracts(String subscriberRef, String contractStatus, Integer limit, Integer offset) {
-        return ContractsApiDelegate.super.searchContracts(subscriberRef, contractStatus, limit, offset);
+    public ResponseEntity<ContractsResponse> getContracts() {
+        var contracts = getActiveContractsUseCase.getContracts();
+        return ResponseEntity.ok(
+            ContractMapper.toContractsResponse(contracts)
+        );
     }
 }

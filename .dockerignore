@@ -7,3 +7,4 @@ mvnw.cmd
 README.md
 .gitignore
 LICENSE
+.env
