@@ -130,6 +130,36 @@ services:
     ports:
       - '8181:8080'
 
+  payment:
+    depends_on:
+      kafka:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile.payment
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}
+      KAFKA_AUTO_OFFSET_RESET: earliest
+      KAFKA_TOPIC_PROCESS_PAYMENT: ${KAFKA_TOPIC_PROCESS_PAYMENT}
+      KAFKA_TOPIC_PAYMENT_SUCCESS: ${KAFKA_TOPIC_PAYMENT_SUCCESS}
+
+  invoice:
+    depends_on:
+      kafka:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile.invoice
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}
+      KAFKA_AUTO_OFFSET_RESET: earliest
+      KAFKA_TOPIC_SEND_INVOICE: ${KAFKA_TOPIC_SEND_INVOICE}
+      KAFKA_TOPIC_INVOICE_SENT: ${KAFKA_TOPIC_INVOICE_SENT}
+
 
 volumes:
   kafka_data:

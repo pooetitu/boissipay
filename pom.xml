@@ -23,5 +23,7 @@
         <module>kafka</module>
         <module>billing</module>
         <module>contract</module>
+        <module>payment</module>
+        <module>invoice</module>
     </modules>
 </project>

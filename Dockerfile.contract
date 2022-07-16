@@ -1,9 +1,7 @@
 FROM maven:3.8.5-eclipse-temurin-17-alpine as build
 WORKDIR /app
 COPY pom.xml .
-COPY ./billing/ ./billing/
-COPY ./contract/ ./contract/
-COPY ./kafka/ ./kafka/
+COPY . .
 
 RUN mvn clean install -DskipTests
 

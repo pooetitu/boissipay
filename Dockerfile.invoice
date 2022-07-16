@@ -1,0 +1,22 @@
+FROM maven:3.8.5-eclipse-temurin-17-alpine as build
+WORKDIR /app
+COPY pom.xml .
+COPY . .
+
+RUN mvn clean install -DskipTests
+
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/invoice/target/*.jar /app/boissipay-invoice.jar
+
+EXPOSE 8080
+
+ENV KAFKA_HOST=localhost\
+    KAFKA_PORT=9092\
+    KAFKA_GROUP_ID=boissipay\
+    KAFKA_AUTO_OFFSET_RESET=earliest\
+    KAFKA_TOPIC_SEND_INVOICE=send-invoice\
+    KAFKA_TOPIC_INVOICE_SENT=invoice-sent\
+    WRITE_DATES_AS_TIMESTAMPS=false
+
+CMD ["java", "-jar","-Dspring.profiles.active=env", "/app/boissipay-invoice.jar"]

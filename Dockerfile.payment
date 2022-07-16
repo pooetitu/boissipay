@@ -1,0 +1,22 @@
+FROM maven:3.8.5-eclipse-temurin-17-alpine as build
+WORKDIR /app
+COPY pom.xml .
+COPY . .
+
+RUN mvn clean install -DskipTests
+
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/payment/target/*.jar /app/boissipay-payment.jar
+
+EXPOSE 8080
+
+ENV KAFKA_HOST=localhost\
+    KAFKA_PORT=9092\
+    KAFKA_GROUP_ID=boissipay\
+    KAFKA_AUTO_OFFSET_RESET=earliest\
+    KAFKA_TOPIC_PROCESS_PAYMENT=process-payment\
+    KAFKA_TOPIC_PAYMENT_SUCCESS=payment-success\
+    WRITE_DATES_AS_TIMESTAMPS=false
+
+CMD ["java", "-jar","-Dspring.profiles.active=env", "/app/boissipay-payment.jar"]
