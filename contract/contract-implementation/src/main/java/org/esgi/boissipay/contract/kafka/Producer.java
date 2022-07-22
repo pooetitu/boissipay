@@ -21,10 +21,10 @@ public class Producer implements CreateContractHandler {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    public Producer(@Value("${kafka.topic.create-contract}") String createContractTopicName, KafkaTemplate<String, String> kafkaTemplate) {
+    public Producer(@Value("${kafka.topic.create-contract}") String createContractTopicName, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.createContractTopicName = createContractTopicName;
         this.kafkaTemplate = kafkaTemplate;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
     }
 
     private void sendContractCreateEvent(Contract request) {

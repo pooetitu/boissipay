@@ -1,7 +1,7 @@
 .github/
 .idea/
 .mvn/
-target/
+*/target
 mvnw
 mvnw.cmd
 README.md

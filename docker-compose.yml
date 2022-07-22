@@ -38,6 +38,8 @@ services:
     restart: unless-stopped
     networks:
       - boissipay-network
+    ports:
+      - '5433:5432'
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "contract", "-d", "contract" ]
       interval: 20s
@@ -87,6 +89,8 @@ services:
     restart: unless-stopped
     networks:
       - boissipay-network
+    ports:
+      - '5432:5432'
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "billing", "-d", "billing" ]
       interval: 20s

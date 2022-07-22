@@ -1,5 +1,7 @@
 package org.esgi.boissipay.contract.infra;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.esgi.boissipay.contract.domain.ContractRepository;
 import org.esgi.boissipay.contract.domain.CreateContractHandler;
 import org.esgi.boissipay.contract.domain.EventDispatcher;
@@ -15,6 +17,13 @@ import java.util.Set;
 
 @Configuration
 public class ContractConfiguration {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        var mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
+    }
 
     @Bean
     ContractRepository contractRepository(JPAContractRepository jpaContractRepository) {
