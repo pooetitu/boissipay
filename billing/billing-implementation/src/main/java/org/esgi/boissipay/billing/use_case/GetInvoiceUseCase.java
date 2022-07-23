@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class SearchInvoiceUseCase {
+public class GetInvoiceUseCase {
 
     private final PaymentRepository paymentRepository;
     private final ContractRepository contractRepository;
 
-    public SearchInvoiceUseCase(PaymentRepository paymentRepository, ContractRepository contractRepository) {
+    public GetInvoiceUseCase(PaymentRepository paymentRepository, ContractRepository contractRepository) {
         this.paymentRepository = paymentRepository;
         this.contractRepository = contractRepository;
     }
@@ -31,7 +31,7 @@ public class SearchInvoiceUseCase {
                     var invoice = invoices.get(payment.operation().contactPerson().ccuid());
                     if (invoice == null) {
                         invoice = new Invoice(
-                            UUID.randomUUID().toString(),
+                            payment.invoiceRef(),
                             contract.ref(),
                             contract.id(),
                             payment.operation().contactPerson(),

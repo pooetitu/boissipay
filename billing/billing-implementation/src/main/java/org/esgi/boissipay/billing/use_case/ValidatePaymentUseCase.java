@@ -17,7 +17,9 @@ public final class ValidatePaymentUseCase {
     }
 
     public void validatePayment(String paymentId) {
-        var payment = paymentRepository.getPayment(paymentId);
+        logger.info("Validating payment: " + paymentId);
+        var payment = paymentRepository.getPayment(Objects.requireNonNull(paymentId));
+        logger.info("Validating payment: " + payment);
         if (payment == null) {
             logger.error("Payment not found");
             throw new IllegalArgumentException("Payment not found");

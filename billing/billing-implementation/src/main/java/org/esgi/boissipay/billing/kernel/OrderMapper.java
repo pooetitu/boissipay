@@ -19,6 +19,7 @@ public class OrderMapper {
             .setOrderRef(order.orderRef())
             .setOrderType(order.orderType())
             .setPriceTax(order.priceTax())
+            .setOperationId(order.operationId())
             .setPriceWithoutTax(order.priceWithoutTax())
             .setPriceWithTax(order.priceWithTax())
             .setProductLabel(order.productLabel())

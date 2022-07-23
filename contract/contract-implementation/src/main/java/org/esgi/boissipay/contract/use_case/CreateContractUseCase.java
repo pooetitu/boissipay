@@ -18,12 +18,19 @@ public class CreateContractUseCase {
         this.contractRepository = contractRepository;
     }
 
-    public void createContract(ContractRequest contractRequest) {
+    /**
+     * "Create a contract, save it, and dispatch an event."
+     *
+     * @param contractRequest This is the request object that is passed in from the controller.
+     * @return The contract reference
+     */
+    public String createContract(ContractRequest contractRequest) {
         Contract contract = ContractMapper.toContract(contractRequest)
             .setContractId(UUID.randomUUID().toString())
             .setContractRef(UUID.randomUUID().toString());
 
         contractRepository.save(contract);
         eventDispatcher.dispatchCreateContract(contract);
+        return contract.contractRef();
     }
 }
