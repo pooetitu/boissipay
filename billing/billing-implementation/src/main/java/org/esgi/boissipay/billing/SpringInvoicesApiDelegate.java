@@ -6,25 +6,25 @@ import org.esgi.boissipay.billing.kernel.InvoiceMapper;
 import org.esgi.boissipay.billing.model.Invoice;
 import org.esgi.boissipay.billing.model.InvoicesGet200Response;
 import org.esgi.boissipay.billing.use_case.GetInvoiceByInvoiceRef;
-import org.esgi.boissipay.billing.use_case.SearchInvoiceUseCase;
+import org.esgi.boissipay.billing.use_case.GetInvoiceUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SpringInvoicesApiDelegate implements InvoicesApiDelegate {
 
-    private final SearchInvoiceUseCase searchInvoiceUseCase;
+    private final GetInvoiceUseCase getInvoiceUseCase;
     private final GetInvoiceByInvoiceRef getInvoiceByInvoiceRef;
 
-    public SpringInvoicesApiDelegate(SearchInvoiceUseCase searchInvoiceUseCase,
+    public SpringInvoicesApiDelegate(GetInvoiceUseCase getInvoiceUseCase,
                                      GetInvoiceByInvoiceRef getInvoiceByInvoiceRef) {
-        this.searchInvoiceUseCase = searchInvoiceUseCase;
+        this.getInvoiceUseCase = getInvoiceUseCase;
         this.getInvoiceByInvoiceRef = getInvoiceByInvoiceRef;
     }
 
     @Override
     public ResponseEntity<InvoicesGet200Response> invoicesGet() {
-        var invoices = searchInvoiceUseCase.searchInvoice();
+        var invoices = getInvoiceUseCase.searchInvoice();
         var response = new InvoicesGet200Response();
         response.setInvoices(invoices.stream().map(InvoiceMapper::toInvoiceResponse).toList());
         return ResponseEntity.ok(response);

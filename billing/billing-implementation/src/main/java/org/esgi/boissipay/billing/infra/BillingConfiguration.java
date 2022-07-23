@@ -31,7 +31,7 @@ import org.esgi.boissipay.billing.use_case.NewContractUseCase;
 import org.esgi.boissipay.billing.use_case.NewOperationUseCase;
 import org.esgi.boissipay.billing.use_case.NewOrderUseCase;
 import org.esgi.boissipay.billing.use_case.NewPaymentUseCase;
-import org.esgi.boissipay.billing.use_case.SearchInvoiceUseCase;
+import org.esgi.boissipay.billing.use_case.GetInvoiceUseCase;
 import org.esgi.boissipay.billing.use_case.SetPaymentInvoiceRefUseCase;
 import org.esgi.boissipay.billing.use_case.ValidatePaymentUseCase;
 import org.esgi.boissipay.billing.use_case.handler.CreateContractEventHandler;
@@ -125,8 +125,8 @@ public class BillingConfiguration {
     }
 
     @Bean
-    SearchInvoiceUseCase searchInvoiceUseCase(PaymentRepository paymentRepository, ContractRepository contractRepository) {
-        return new SearchInvoiceUseCase(paymentRepository, contractRepository);
+    GetInvoiceUseCase searchInvoiceUseCase(PaymentRepository paymentRepository, ContractRepository contractRepository) {
+        return new GetInvoiceUseCase(paymentRepository, contractRepository);
     }
 
     @Bean

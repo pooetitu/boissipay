@@ -98,4 +98,17 @@ public class PaymentEntity {
         this.createdAt = createdAt;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "PaymentEntity{" +
+            "id='" + id + '\'' +
+            ", invoiceRef='" + invoiceRef + '\'' +
+            ", operationId='" + operationId + '\'' +
+            ", billed=" + billed +
+            ", createdAt=" + createdAt +
+            ", payedAt=" + payedAt +
+            ", contractId='" + contractId + '\'' +
+            '}';
+    }
 }

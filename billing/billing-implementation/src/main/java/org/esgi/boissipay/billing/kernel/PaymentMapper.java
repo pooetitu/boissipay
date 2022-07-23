@@ -16,6 +16,7 @@ public class PaymentMapper {
         return new PaymentEntity()
             .setId(payment.id())
             .setOperationId(payment.operation().id())
+            .setContractId(payment.operation().contractId())
             .setBilled(payment.billed())
             .setCreatedAt(payment.createdAt())
             .setPayedAt(payment.payedAt())
