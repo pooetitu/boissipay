@@ -4,6 +4,8 @@ import org.esgi.boissipay.billing.domain.models.Payment;
 import org.esgi.boissipay.billing.domain.repository.OperationRepository;
 import org.esgi.boissipay.billing.domain.repository.PaymentRepository;
 import org.esgi.boissipay.billing.kernel.PaymentMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public class SpringDataPaymentRepository implements PaymentRepository {
 
     private final OperationRepository operationRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(SpringDataPaymentRepository.class);
+
     public SpringDataPaymentRepository(JPAPaymentRepository jpaPaymentRepository, OperationRepository operationRepository) {
         this.jpaPaymentRepository = jpaPaymentRepository;
         this.operationRepository = operationRepository;
@@ -19,11 +23,15 @@ public class SpringDataPaymentRepository implements PaymentRepository {
 
     @Override
     public void save(Payment payment) {
-        jpaPaymentRepository.save(PaymentMapper.toPaymentEntity(payment));
+        logger.info("Saving payment: " + payment);
+        var paymentEntity = PaymentMapper.toPaymentEntity(payment);
+        logger.info("Saving payment entity: " + paymentEntity);
+        jpaPaymentRepository.save(paymentEntity);
     }
 
     @Override
     public Payment getPayment(String paymentId) {
+        logger.info("Getting payment: " + paymentId);
         return jpaPaymentRepository.findById(paymentId)
             .map(paymentEntity -> PaymentMapper.toPayment(paymentEntity, operationRepository.getOperation(paymentEntity.operationId())))
             .orElse(null);

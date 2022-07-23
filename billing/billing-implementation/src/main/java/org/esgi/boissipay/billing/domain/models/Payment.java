@@ -2,7 +2,7 @@ package org.esgi.boissipay.billing.domain.models;
 
 import java.time.LocalDate;
 
-public class Payment{
+public class Payment {
     private String id;
     private Operation operation;
     private boolean billed;
@@ -75,5 +75,17 @@ public class Payment{
     public Payment setPayedAt(LocalDate payedAt) {
         this.payedAt = payedAt;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+            "id='" + id + '\'' +
+            ", operation=" + operation +
+            ", billed=" + billed +
+            ", createdAt=" + createdAt +
+            ", payedAt=" + payedAt +
+            ", invoiceRef='" + invoiceRef + '\'' +
+            '}';
     }
 }
