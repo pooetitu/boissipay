@@ -37,8 +37,9 @@ public class SpringContractsApiDelegate implements ContractsApiDelegate {
 
     @Override
     public ResponseEntity<ContractResponse> postContract(ContractRequest contractRequest) {
-        createContractUseCase.createContract(contractRequest);
-        return ResponseEntity.ok(new ContractResponse());
+        var contractRef = createContractUseCase.createContract(contractRequest);
+        var createdContract = getContractByRefUseCase.getContract(contractRef);
+        return ResponseEntity.ok(ContractMapper.toContractResponse(createdContract));
     }
 
     @Override
